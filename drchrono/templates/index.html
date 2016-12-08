@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <a href="{% url 'social:begin' 'drchrono' %}">
+    <a href="{% url 'social:begin' 'drchrono' %}?next=/">
       drchrono OAuth
     </a>
+    {% if user.is_authenticated %}
+    <p>Howdy, {{ user.username }}</p>
+    <a href="/logout">Logout</a>
+    {% endif %}
   </body>
 </html>
