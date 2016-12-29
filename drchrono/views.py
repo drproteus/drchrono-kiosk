@@ -1,6 +1,6 @@
 from django.contrib.auth import logout
-from django.shortcuts import redirect
-from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.http import HttpResponse, Http404
 from social.apps.django_app.default.models import UserSocialAuth
 from django.contrib.auth.decorators import login_required
 import requests
@@ -22,6 +22,16 @@ def user_view(request):
     return HttpResponse(response, content_type="json")
 
 @login_required
+def integrate(request):
+    access_token = UserSocialAuth.objects.get(user=request.user).access_token
+    headers = {
+            'Authorization': 'Bearer %s' % access_token,
+    }
+    requests.post('https://drchrono.com/api/iframe_integration', headers=headers)
+    return redirect('/')
+
+
+@login_required
 def patients_view(request):
     access_token = UserSocialAuth.objects.get(user=request.user).access_token
     headers = {
@@ -33,8 +43,17 @@ def patients_view(request):
         data = requests.get(patients_url, headers=headers).json()
         patients.extend(data['results'])
         patients_url = data['next']
-    html = "<pre>"
-    for patient in patients:
-        html += (json.dumps(patient)+'\n')
-    html += "</pre>"
-    return HttpResponse(html)
+    return render(request, 'patients.html', {'patients': patients})
+
+def ensure_from_drchrono(func):
+    def wrapper(request):
+        if not 'drchrono.com' in request.META['HTTP_REFERER']:
+            raise Http404
+        return func(request)
+    return wrapper
+
+@ensure_from_drchrono
+def patient_frame(request):
+    response = HttpResponse("hello, world")
+    response['X-Frame-Options'] = 'ALLOW-FROM http://jakes-mac-mini.home/'
+    return response
