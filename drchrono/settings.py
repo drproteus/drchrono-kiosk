@@ -112,4 +112,4 @@ STATIC_URL = '/static/'
 
 SOCIAL_AUTH_DRCHRONO_KEY = os.environ.get("SOCIAL_AUTH_DRCHRONO_KEY")
 SOCIAL_AUTH_DRCHRONO_SECRET = os.environ.get("SOCIAL_AUTH_DRCHRONO_SECRET")
-LOGIN_REDIRECT_URL = os.environ.get("DEV_HOSTNAME")+".home:8000/complete/drchrono/"
+LOGIN_REDIRECT_URL = "http://localhost:8000/complete/drchrono/"
