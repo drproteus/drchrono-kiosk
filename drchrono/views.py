@@ -5,6 +5,7 @@ from social.apps.django_app.default.models import UserSocialAuth
 from django.contrib.auth.decorators import login_required
 import requests
 import json
+from util.utils import api_call
 
 
 def logout_view(request):
@@ -44,6 +45,17 @@ def patients_view(request):
         patients.extend(data['results'])
         patients_url = data['next']
     return render(request, 'patients.html', {'patients': patients})
+
+@login_required
+def patients(request):
+    patients = []
+    patients_url = 'https://drchrono.com/api/patients'
+    while patients_url:
+        data = api_call(request, patients_url)
+        patients.extend(data['results'])
+        patients_url = data['next']
+    return HttpResponse(patients, content_type='json')
+
 
 def ensure_from_drchrono(func):
     def wrapper(request):
