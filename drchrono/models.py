@@ -74,7 +74,7 @@ def synchronize_patients(sender, user, request, **kwargs):
         if patient.get('date_of_birth', None):
             Patient.create_patient(user, patient)
         else:
-            # Don't need to concen if no birthday, not applicable to application.
+            # Don't need to concern if no birthday, not applicable to application.
             pass
 
 user_logged_in.connect(synchronize_patients)
