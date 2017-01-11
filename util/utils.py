@@ -37,6 +37,6 @@ def api_call(request, url, request_type='GET',
 def drchrono_get(request, url, headers=None, raw=False):
     return api_call(request, url, headers=headers, raw=raw)
 
-def derchrono_post(request, url, data, headers=None, raw=False):
+def drchrono_post(request, url, data, headers=None, raw=False):
     return api_call(request, url, headers=headers, raw=False, data=data)
 
