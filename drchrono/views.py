@@ -15,13 +15,5 @@ def logout_view(request):
 
 @login_required
 def patients(request, filters=None):
-    patients = []
-    patients_url = 'https://drchrono.com/api/patients'
-    if filters:
-        for filter in filter:
-            patients_url += '?{}={}'.format(filter[0], filter[1])
-    while patients_url:
-        data = drchrono_get(request, patients_url)
-        patients.extend(data['results'])
-        patients_url = data['next']
-    return HttpResponse(json.dumps(patients), content_type='json')
+    patients = Patient.objects.filter(doctor=request.user)
+    return render(request, 'patients.html', {'patients': patients})

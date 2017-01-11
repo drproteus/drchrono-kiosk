@@ -7,33 +7,31 @@ TODO = 200
 class Patient(models.Model):
     doctor = models.ForeignKey(User, related_name="patient")
     drchrono_id = models.IntegerField()
-    first_name = models.CharField(max_length=TODO, blank=True)
-    middle_name = models.CharField(max_length=TODO, blank=True)
-    last_name = models.CharField(max_length=TODO)
-    birthday = models.DateField()
-    email = models.CharField(max_length=TODO, blank=True)
+    first_name = models.CharField(max_length=TODO, blank=True, null=True)
+    middle_name = models.CharField(max_length=TODO, blank=True, null=True)
+    last_name = models.CharField(max_length=TODO, null=True)
+    birthday = models.DateField(blank=True, null=True)
+    email = models.CharField(max_length=TODO, blank=True, null=True)
     gender = models.CharField(max_length=TODO, default="")
-    zip_code = models.CharField(max_length=TODO, blank=True)
-    cell_phone = models.CharField(max_length=TODO, blank=True)
-    photo = models.CharField(max_length=TODO, blank=True)
+    zip_code = models.CharField(max_length=TODO, blank=True, null=True)
+    cell_phone = models.CharField(max_length=TODO, blank=True, null=True)
+    photo = models.CharField(max_length=TODO, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     @classmethod
     def create_patient(klass, user, data):
         patient = Patient(doctor=user)
-        patient.drchrono_id = data.get('id', '')
-        patient.first_name = data.get('first_name', '')
-        patient.middle_name = data.get('middle_name', '')
-        patient.last_name = data.get('last_name', '')
-        patient.birthday = data.get('date_of_birth', '')
-        patient.email = data.get('email', '')
-        patient.gender = data.get('gender', '')
-        patient.photo = data.get('patient_photo', '')
-        if not patient.photo:
-            patient.photo = ''
-        patient.zip_code = data.get('zip_code', '')
-        patient.cell_phone = data.get('cell_phone', '')
+        patient.drchrono_id = data.get('id')
+        patient.first_name = data.get('first_name')
+        patient.middle_name = data.get('middle_name')
+        patient.last_name = data.get('last_name')
+        patient.birthday = data.get('date_of_birth')
+        patient.email = data.get('email')
+        patient.gender = data.get('gender')
+        patient.photo = data.get('patient_photo')
+        patient.zip_code = data.get('zip_code')
+        patient.cell_phone = data.get('cell_phone')
         patient.save()
         return patient
 
@@ -71,10 +69,6 @@ def synchronize_patients(sender, user, request, **kwargs):
         patients.extend(data['results'])
         patients_url = data['next']
     for patient in patients:
-        if patient.get('date_of_birth', None):
-            Patient.create_patient(user, patient)
-        else:
-            # Don't need to concern if no birthday, not applicable to application.
-            pass
+        Patient.create_patient(user, patient)
 
 user_logged_in.connect(synchronize_patients)

@@ -1,3 +1,5 @@
+<h1>Your Patients:</h1>
+<hr>
 {% if patients %}
 <ul class="patient-list">
 {% for patient in patients %}
@@ -6,7 +8,8 @@
   <h2>{{patient.first_name}} {% if patient.middle_name %}{{patient.middle_name}} {% endif %}{{patient.last_name}}</h2>
   <p>{{ patient.cell_phone }}</p>
   <p>{{ patient.email }}</p>
-  <img src="{{patient.patient_photo}}" width="50" height="50"></img>
+  <p>{{ patient.birthday }}</p>
+  <img src="{{patient.photo}}" width="50" height="50"></img>
 </div>
 </li>
 {% endfor %}
