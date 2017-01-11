@@ -13,10 +13,18 @@ def auth_headers(social_user):
     }
     return headers
 
-def api_call(request, url, headers=None, raw=False):
+def api_call(request, url, request_type='GET',
+        headers=None, raw=False, data=None):
     social_user = UserSocialAuth.objects.get(user=request.user)
     headers = auth_headers(social_user)
-    response = requests.get(url, headers=headers)
+    if request_type == 'GET':
+        response = requests.get(url, headers=headers)
+    elif request_type == 'POST':
+        if not data:
+            data = {}
+        response = requests.post(url, headers=headers, data=data)
+    else:
+        raise Exception, "Invalid request type specified: {}".format(request_type)
     if response.status_code > 200:
         strategy = load_strategy(request)
         social_user.refresh_token(strategy)
@@ -25,4 +33,10 @@ def api_call(request, url, headers=None, raw=False):
     if raw:
         return response
     return response.json()
+
+def drchrono_get(request, url, headers=None, raw=False):
+    return api_call(request, url, headers=headers, raw=raw)
+
+def derchrono_post(request, url, data, headers=None, raw=False):
+    return api_call(request, url, headers=headers, raw=False, data=data)
 
