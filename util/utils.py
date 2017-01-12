@@ -3,8 +3,10 @@ from social.apps.django_app.default.models import UserSocialAuth
 from social.apps.django_app.utils import load_strategy
 import requests
 import json
+from datetime import datetime
 
 MAX_TRIES = 5
+API_ROOT = 'https://drchrono.com/api/'
 
 def auth_headers(social_user):
     access_token = social_user.access_token
@@ -50,3 +52,17 @@ def doc_post(request, url, data, headers=None, raw=False, user=None):
 
 def doc_patch(request, url, data, headers=None, raw=False, user=None):
     return api_call(request, url, data=data, headers=headers, raw=raw, user=user, request_type='PATCH')
+
+def get_todays_appointments(request, for_patient=None, user=None):
+    url = "{}/appointments".format(API_ROOT)
+    params = {"date": datetime.now().date().isoformat()}
+    if for_patient:
+        params["patient"] = for_patient
+    return doc_get(request, url, params=params, user=user)
+
+def set_appointment_status(request, appointment_id, new_status, user=None):
+    if new_status not in ["Arrived", "In Session", "Complete"]:
+        raise Exception, "Updated status must be one of 'Arrived', 'In Session', or 'Complete'."
+    url = "{}/appointments/{}".format(API_ROOT, appointment_id)
+    data = {"status": new_status}
+    return doc_patch(request, url, data=data, user=user)
