@@ -15,14 +15,14 @@ def auth_headers(social_user):
 
 def api_call(request, url, request_type='GET',
         headers=None, raw=False, data=None,
-        user=None):
+        user=None, params=None):
     if not user:
         social_user = UserSocialAuth.objects.get(user=request.user)
     else:
         social_user = UserSocialAuth.objects.get(user=user)
     headers = auth_headers(social_user)
     if request_type == 'GET':
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, params=params)
     elif request_type == 'POST':
         if not data:
             data = {}
@@ -38,8 +38,8 @@ def api_call(request, url, request_type='GET',
         return response
     return response.json()
 
-def drchrono_get(request, url, headers=None, raw=False, user=None):
-    return api_call(request, url, headers=headers, raw=raw, user=user)
+def drchrono_get(request, url, headers=None, raw=False, user=None, params=None):
+    return api_call(request, url, headers=headers, raw=raw, user=user, params=params)
 
 def drchrono_post(request, url, data, headers=None, raw=False, user=None):
-    return api_call(request, url, headers=headers, raw=False, data=data, user=user)
+    return api_call(request, url, headers=headers, raw=False, data=data, user=user, params=params)
