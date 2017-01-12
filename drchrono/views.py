@@ -12,8 +12,3 @@ from drchrono.models import Patient, BirthdayAlert
 def logout_view(request):
     logout(request)
     return redirect('/')
-
-@login_required
-def patients(request, filters=None):
-    patients = Patient.objects.filter(doctor=request.user)
-    return render(request, 'patients.html', {'patients': patients})

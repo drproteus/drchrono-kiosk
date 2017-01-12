@@ -27,6 +27,10 @@ def api_call(request, url, request_type='GET',
         if not data:
             data = {}
         response = requests.post(url, headers=headers, data=data)
+    elif request_type == 'PATCH':
+        if not data:
+            data = {}
+        response = requests.patch(url, headers=headers, data=data)
     else:
         raise Exception, "Invalid request type specified: {}".format(request_type)
     if response.status_code > 200:
@@ -38,8 +42,11 @@ def api_call(request, url, request_type='GET',
         return response
     return response.json()
 
-def drchrono_get(request, url, headers=None, raw=False, user=None, params=None):
-    return api_call(request, url, headers=headers, raw=raw, user=user, params=params)
+def doc_get(request, url, headers=None, raw=False, user=None, params=None):
+    return api_call(request, url, headers=headers, raw=raw, user=user, params=params, request_type='GET')
 
-def drchrono_post(request, url, data, headers=None, raw=False, user=None):
-    return api_call(request, url, headers=headers, raw=False, data=data, user=user, params=params)
+def doc_post(request, url, data, headers=None, raw=False, user=None):
+    return api_call(request, url, headers=headers, raw=raw, data=data, user=user, request_type='POST')
+
+def doc_patch(request, url, data, headers=None, raw=False, user=None):
+    return api_call(request, url, data=data, headers=headers, raw=raw, user=user, request_type='PATCH')
