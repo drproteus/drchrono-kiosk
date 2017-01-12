@@ -20,8 +20,10 @@ class Patient(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     @classmethod
-    def create_patient(klass, user, data):
-        patient = Patient(doctor=user)
+    def create_or_update_patient(klass, user, data):
+        patient = Patient.objects.filter(doctor=user, drchrono_id=data.get('id', -1)).first()
+        if not patient:
+            patient = Patient(doctor=user)
         patient.drchrono_id = data.get('id')
         patient.first_name = data.get('first_name')
         patient.middle_name = data.get('middle_name')
@@ -62,13 +64,12 @@ def synchronize_patients(sender, user, request, **kwargs):
     patients = []
     patients_url = 'https://drchrono.com/api/patients'
     last_updated_date = Patient.last_updated_date(user=user)
-    if last_updated_date:
-        patients_url += '?since={}'.format(last_updated_date)
+    params = {"since": last_updated_date}
     while patients_url:
-        data = drchrono_get(request, patients_url, user=user)
+        data = drchrono_get(request, patients_url, user=user, params=params)
         patients.extend(data['results'])
         patients_url = data['next']
     for patient in patients:
-        Patient.create_patient(user, patient)
+        Patient.create_or_update_patient(user, patient)
 
 user_logged_in.connect(synchronize_patients)
