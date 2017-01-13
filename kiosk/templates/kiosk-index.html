@@ -1,10 +1,15 @@
 {% extends 'kiosk-base.html' %}
 {% block title %}Appointment Lookup{% endblock %}
 {% block content %}
-<form>
+<form action="/kiosk/search/" method="POST">{% csrf_token %}
   {{ form.as_p }}
+  <input type="submit" value="Search"/>
 </form>
 {% if kioskMode %}
 <p>Kiosk Mode Enabled</p>
+<form action="/disable_kiosk/" method="POST">{% csrf_token %}
+  {{ disable.as_p }}
+  <input type="submit" value="Disable Kiosk Mode"/>
+</form>
 {% endif %}
 {% endblock %}

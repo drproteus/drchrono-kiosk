@@ -10,7 +10,9 @@ urlpatterns = [
     url(r'^login/$', views.login_view, name='login'),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^logout/$', views.logout_view),
-    url(r'^enable_kiosk/$', views.enable_kiosk),
+    url(r'^logout/$', views.logout_view, name='logout'),
+    url(r'^enable_kiosk/$', views.enable_kiosk, name='enable_kiosk'),
+    url(r'^disable_kiosk/$', views.disable_kiosk, name='disable_kiosk'),
+    url(r'^config/$', views.config, name='config'),
     url(r'^kiosk/', include('kiosk.urls', namespace='kiosk')),
 ]

@@ -36,13 +36,15 @@ class Configuration(models.Model):
     office_name = models.CharField(max_length=200)
     exit_kiosk_key = models.CharField(max_length=200)
 
-    def set_kiosk_key(self, key):
-        self.exit_kiosk_key = hashpw(key, gensalt())
-    
-    def is_kiosk_key(self, key):
-        if hashpw(key, self.exit_kiosk_key) == self.exit_kiosk_key:
-            return True
-        return False
+    # Unicode troubles with hashing putting the following on the back-burner
+    # Not as concerned with this security as a much as a password. Bummer.
+    # def set_kiosk_key(self, key):
+    #     self.exit_kiosk_key = hashpw(key, gensalt())
+    # 
+    # def is_kiosk_key(self, key):
+    #     if hashpw(key, self.exit_kiosk_key) == self.exit_kiosk_key:
+    #         return True
+    #     return False
 
     @classmethod
     def get_config_for_user(klass, user):
