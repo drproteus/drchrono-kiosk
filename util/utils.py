@@ -1,10 +1,15 @@
 from django.http import HttpResponse, Http404
 from social.apps.django_app.default.models import UserSocialAuth
 from social.apps.django_app.utils import load_strategy
+from django.core.urlresolvers import reverse
+from django.shortcuts import redirect, render
 import requests
 import json
 from datetime import datetime
 
+#-------------------------------------------------------------------------------
+# DRCHRONO API HELPERS
+#-------------------------------------------------------------------------------
 MAX_TRIES = 5
 API_ROOT = 'https://drchrono.com/api/'
 
@@ -53,6 +58,9 @@ def doc_post(request, url, data, headers=None, raw=False, user=None):
 def doc_patch(request, url, data, headers=None, raw=False, user=None):
     return api_call(request, url, data=data, headers=headers, raw=raw, user=user, request_type='PATCH')
 
+#-------------------------------------------------------------------------------
+# SPECIFIC HELPERS
+#-------------------------------------------------------------------------------
 def get_todays_appointments(request, for_patient=None, user=None):
     url = "{}/appointments".format(API_ROOT)
     params = {"date": datetime.now().date().isoformat()}
@@ -66,3 +74,13 @@ def set_appointment_status(request, appointment_id, new_status, user=None):
     url = "{}/appointments/{}".format(API_ROOT, appointment_id)
     data = {"status": new_status}
     return doc_patch(request, url, data=data, user=user)
+
+#-------------------------------------------------------------------------------
+# FUNCTION DECORATORS
+#-------------------------------------------------------------------------------
+def redirect_if_kiosk(func):
+    def wrapper(request, *args, **kwargs):
+        if request.session.get('kioskMode', False):
+            return redirect(reverse('kiosk:home'))
+        return func(request, *args, **kwargs)
+    return wrapper
