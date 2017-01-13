@@ -1,8 +1,7 @@
 {% extends 'base.html'  %}
 {% block title %}Welcome, {{ user.username }}.{% endblock %}
 {% block content %}
-    {% if user.is_authenticated %}
-    <a href="/dashboard">Dashboard</a>
-    <a href="/enable_kiosk">Enable Kiosk Mode</a>
-    {% endif %}
+<a href="/dashboard/">Dashboard</a>
+<a href="/enable_kiosk/">Enable Kiosk Mode</a>
+<a href="/logout/">Logout</a>
 {% endblock %}
