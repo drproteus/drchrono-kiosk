@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 import requests
 import json
 from datetime import datetime
+from django.utils import timezone
 
 #-------------------------------------------------------------------------------
 # DRCHRONO API HELPERS
@@ -66,10 +67,11 @@ def doc_patch(request, url, data, headers=None, raw=False, user=None):
 #-------------------------------------------------------------------------------
 def get_todays_appointments(request, for_patient=None, user=None):
     url = "{}/appointments".format(API_ROOT)
-    params = {"date": datetime.now().date().isoformat()}
+    params = {"date": timezone.now().date().isoformat()}
     if for_patient:
         params["patient"] = for_patient
-    return doc_get(request, url, params=params, user=user)
+    response = doc_get(request, url, params=params, user=user)
+    return response['results']
 
 def set_appointment_status(request, appointment_id, new_status, user=None):
     if new_status not in ["Arrived", "In Session", "Complete"]:
@@ -80,11 +82,41 @@ def set_appointment_status(request, appointment_id, new_status, user=None):
 
 def get_patient(request, patient_id, user=None, params=None):
     url = "{}/patients/{}".format(API_ROOT, patient_id)
-    return doc_get(request, url, user=user, params=params)
+    response = doc_get(request, url, user=user, params=params)
+    return response
 
 def update_patient(request, patient_id, data, user=None):
     url = "{}/patients/{}".format(API_ROOT, patient_id)
     return doc_patch(request, url, data, user=user)
+
+def get_patients(request, user=None, params=None):
+    url = "{}/patients".format(API_ROOT)
+    patients = []
+    while url:
+        response = doc_get(request, url, user=user, params=params)
+        patients.extend(response['results'])
+        url = response['next']
+    return patients
+
+def get_todays_appointments_for_multiple(request, patient_ids=None, user=None):
+    if not patient_ids:
+        patient_ids = []
+    results = []
+    for patient_id in patient_ids:
+        results.extend(get_todays_appointments(request, for_patient=patient_id, user=user))
+    return results
+
+def search_appointments(request, first_name=None, last_name=None, user=None):
+    if not last_name:
+        raise Exception, "Must provide at least last name to search appointments."
+    params = {}
+    if first_name:
+        params['first_name'] = first_name
+    if last_name:
+        params['last_name'] = last_name
+    patients = get_patients(request, params=params, user=user)
+    patientIds = [patient['id'] for patient in patients]
+    return get_todays_appointments_for_multiple(request, patient_ids=patientIds, user=user)
 
 #-------------------------------------------------------------------------------
 # FUNCTION DECORATORS
