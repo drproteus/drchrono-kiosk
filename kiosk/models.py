@@ -21,6 +21,8 @@ class Arrival(models.Model):
 
     @classmethod
     def average_wait_time(klass):
+        if klass.objects.count() < 1:
+            return -1
         return sum([arrival.time_spent_waiting for arrival in
             klass.objects.all()]) / float(klass.objects.count())
 
