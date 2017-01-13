@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
+from django.utils import timezone
 from bcrypt import hashpw, gensalt
 
 class Arrival(models.Model):
@@ -13,18 +13,19 @@ class Arrival(models.Model):
     @property
     def time_spent_waiting(self):
         # returns second difference between created_at and
-        # either seen_at if seen, or datetime.now() if still waiting.
+        # either seen_at if seen, or timezone.now() if still waiting.
         if self.seen_at:
             return (self.seen_at - self.created_at).seconds
         else:
-            return (datetime.now() - self.created_at).seconds
+            return (timezone.now() - self.created_at).seconds
 
     @classmethod
     def average_wait_time(klass):
-        if klass.objects.count() < 1:
+        arrivals = klass.objects.all()
+        if arrivals.count() < 1:
             return -1
         return sum([arrival.time_spent_waiting for arrival in
-            klass.objects.all()]) / float(klass.objects.count())
+            arrivals]) / float(arrivals.count())
 
 class Configuration(models.Model):
     doctor = models.OneToOneField(User, related_name="configuration")
@@ -44,5 +45,5 @@ class Configuration(models.Model):
         configs = klass.objects.filter(doctor=user)
         if configs.count() < 1:
             return None
-        return klass.objects.filter(doctor=user).first()
+        return configs.first()
 
