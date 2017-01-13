@@ -107,6 +107,11 @@ def get_todays_appointments_for_multiple(request, patient_ids=None, user=None):
     return results
 
 def search_appointments(request, first_name=None, last_name=None, user=None):
+    """
+    Takes first_name and/or last_name (last_name required) and returns
+    a list of patient JSON objects, each with a nested list of
+    appointment objects for that patient.
+    """
     if not last_name:
         raise Exception, "Must provide at least last name to search appointments."
     params = {}
@@ -115,8 +120,10 @@ def search_appointments(request, first_name=None, last_name=None, user=None):
     if last_name:
         params['last_name'] = last_name
     patients = get_patients(request, params=params, user=user)
-    patientIds = [patient['id'] for patient in patients]
-    return get_todays_appointments_for_multiple(request, patient_ids=patientIds, user=user)
+    for patient in patients:
+        appointments = get_todays_appointments(request, for_patient=patient['id'], user=user)
+        patient['appointments'] = appointments
+    return patients
 
 #-------------------------------------------------------------------------------
 # FUNCTION DECORATORS
