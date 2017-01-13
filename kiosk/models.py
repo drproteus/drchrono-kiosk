@@ -27,7 +27,7 @@ class Arrival(models.Model):
             klass.objects.all()]) / float(klass.objects.count())
 
 class Configuration(models.Model):
-    doctor = models.ForeignKey(User, related_name="config")
+    doctor = models.OneToOneField(User, related_name="configuration")
     office_name = models.CharField(max_length=200)
     exit_kiosk_key = models.CharField(max_length=200)
 
@@ -38,4 +38,11 @@ class Configuration(models.Model):
         if hashpw(key, self.exit_kiosk_key) == self.exit_kiosk_key:
             return True
         return False
+
+    @classmethod
+    def get_config_for_user(klass, user):
+        configs = klass.objects.filter(doctor=user)
+        if configs.count() < 1:
+            return None
+        return klass.objects.filter(doctor=user).first()
 

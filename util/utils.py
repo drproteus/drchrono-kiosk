@@ -50,13 +50,16 @@ def api_call(request, url, request_type='GET',
     return response.json()
 
 def doc_get(request, url, headers=None, raw=False, user=None, params=None):
-    return api_call(request, url, headers=headers, raw=raw, user=user, params=params, request_type='GET')
+    return api_call(request, url, headers=headers, raw=raw,
+            user=user, params=params, request_type='GET')
 
 def doc_post(request, url, data, headers=None, raw=False, user=None):
-    return api_call(request, url, headers=headers, raw=raw, data=data, user=user, request_type='POST')
+    return api_call(request, url, headers=headers, raw=raw, data=data,
+            user=user, request_type='POST')
 
 def doc_patch(request, url, data, headers=None, raw=False, user=None):
-    return api_call(request, url, data=data, headers=headers, raw=raw, user=user, request_type='PATCH')
+    return api_call(request, url, data=data, headers=headers, raw=raw,
+            user=user, request_type='PATCH')
 
 #-------------------------------------------------------------------------------
 # SPECIFIC HELPERS
