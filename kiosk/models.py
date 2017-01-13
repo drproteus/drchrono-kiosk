@@ -12,7 +12,7 @@ class Arrival(models.Model):
 
     @property
     def time_spent_waiting(self):
-        # returns microsecond difference between created_at and
+        # returns second difference between created_at and
         # either seen_at if seen, or datetime.now() if still waiting.
         if self.seen_at:
             return (self.seen_at - self.created_at).seconds
