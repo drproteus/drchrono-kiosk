@@ -6,7 +6,7 @@ class SearchForm(forms.Form):
     last_name = forms.CharField(max_length=160)
     ssn_tail = forms.CharField(max_length=4)
 
-class DemographicsForm(forms.Form):
+class CheckinForm(forms.Form):
     ETHNICITY_CHOICES = (
         ('blank', ''),
         ('hispanic', 'Hispanic'),
@@ -22,6 +22,7 @@ class DemographicsForm(forms.Form):
         ('white', 'White'),
         ('declined', 'Decline to self-identify'),
     )
+    # Demographic Fields
     first_name = forms.CharField(max_length=160, required=False)
     middle_name = forms.CharField(max_length=160, required=False)
     last_name = forms.CharField(max_length=160, required=False)
@@ -35,6 +36,10 @@ class DemographicsForm(forms.Form):
     emergency_contact_phone = forms.CharField(max_length=30, required=False)
     ethnicity = forms.ChoiceField(choices=ETHNICITY_CHOICES, required=False)
     race = forms.ChoiceField(choices=RACE_CHOICES, required=False)
+    # Appointment Fields
+    appointment_id = forms.CharField(max_length=160, widget=forms.HiddenInput())
+    scheduled_time = forms.DateTimeField(widget=forms.HiddenInput())
+    duration = forms.IntegerField(widget=forms.HiddenInput())
 
 class ConfigurationForm(forms.Form):
     office_name = forms.CharField(max_length=200)

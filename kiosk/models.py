@@ -7,6 +7,10 @@ class Arrival(models.Model):
     appointment_id = models.IntegerField()
     patient_id = models.IntegerField()
     doctor = models.ForeignKey(User, related_name="arrival")
+    scheduled_time = models.DateTimeField()
+    duration = models.IntegerField()
+    patient_photo = models.CharField(max_length=500, blank=True)
+    patient_name = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     seen_at = models.DateTimeField(blank=True, null=True)
 
