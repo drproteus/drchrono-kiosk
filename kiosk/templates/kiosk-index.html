@@ -1,0 +1,10 @@
+{% extends 'kiosk-base.html' %}
+{% block title %}Appointment Lookup{% endblock %}
+{% block content %}
+<form>
+  {{ form.as_p }}
+</form>
+{% if kioskMode %}
+<p>Kiosk Mode Enabled</p>
+{% endif %}
+{% endblock %}
