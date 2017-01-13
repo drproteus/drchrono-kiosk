@@ -75,6 +75,14 @@ def set_appointment_status(request, appointment_id, new_status, user=None):
     data = {"status": new_status}
     return doc_patch(request, url, data=data, user=user)
 
+def get_patient(request, patient_id, user=None, params=None):
+    url = "{}/patients/{}".format(API_ROOT, patient_id)
+    return doc_get(request, url, user=user, params=params)
+
+def update_patient(request, patient_id, data, user=None):
+    url = "{}/patients/{}".format(API_ROOT, patient_id)
+    return doc_patch(request, url, data, user=user)
+
 #-------------------------------------------------------------------------------
 # FUNCTION DECORATORS
 #-------------------------------------------------------------------------------
