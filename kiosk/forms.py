@@ -4,7 +4,7 @@ from kiosk.models import Configuration
 class SearchForm(forms.Form):
     first_name = forms.CharField(max_length=160, required=False)
     last_name = forms.CharField(max_length=160)
-    ssn_tail = forms.CharField(max_length=4)
+    ssn_tail = forms.CharField(max_length=4, label="Last Four Digits of SSN", required=False)
 
 class CheckinForm(forms.Form):
     ETHNICITY_CHOICES = (
