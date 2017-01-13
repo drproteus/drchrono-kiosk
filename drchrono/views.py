@@ -5,9 +5,18 @@ from social.apps.django_app.default.models import UserSocialAuth
 from django.contrib.auth.decorators import login_required
 import requests
 import json
-from util.utils import drchrono_get, drchrono_post
-from drchrono.models import Patient, BirthdayAlert
+from util.utils import doc_get, doc_post
 
+
+def index(request):
+    if not request.user.is_authenticated():
+        return redirect('login')
+    return render(request, 'index.html', {})
+
+def login_view(request):
+    if request.user.is_authenticated():
+        return redirect('home')
+    return render(request, 'login.html', {})
 
 def logout_view(request):
     logout(request)

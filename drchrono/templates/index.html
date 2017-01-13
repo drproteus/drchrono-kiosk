@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html>
-  <body>
-    <a href="{% url 'social:begin' 'drchrono' %}?next=/">
-      drchrono OAuth
-    </a>
+{% extends 'base.html'  %}
+{% block title %}Welcome, {{ user.username }}.{% endblock %}
+{% block content %}
     {% if user.is_authenticated %}
-    <p>Howdy, {{ user.username }}</p>
-    <a href="/patients">Patients</a>
-    <a href="/logout">Logout</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/enable_kiosk">Enable Kiosk Mode</a>
     {% endif %}
-  </body>
-</html>
+{% endblock %}

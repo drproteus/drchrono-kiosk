@@ -6,7 +6,8 @@ import views
 
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='index.html'), name='home'),
+    url(r'^$', views.index, name='home'),
+    url(r'^login/$', views.login_view, name='login'),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^logout/', views.logout_view),
