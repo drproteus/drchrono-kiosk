@@ -18,6 +18,7 @@ def home(request):
 
 @login_required
 def search(request):
+    kioskMode = request.session.get('kioskMode', False)
     if request.method == 'POST':
         searchForm = SearchForm(request.POST)
         if searchForm.is_valid():
@@ -29,7 +30,7 @@ def search(request):
                 messages.error(request, 'No appointments found for today.')
                 return redirect(reverse('kiosk:home'))
             return render(request, 'kiosk-search-results.html',
-                    {'results': results})
+                    {'results': results, 'kioskMode': kioskMode})
     return redirect(reverse('kiosk:home'))
 
 @login_required

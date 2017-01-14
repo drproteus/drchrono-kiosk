@@ -31,6 +31,10 @@ class Arrival(models.Model):
         return sum([arrival.time_spent_waiting for arrival in
             arrivals]) / float(arrivals.count())
 
+    @classmethod
+    def unseen(klass):
+        return klass.objects.filter(seen_at=None)
+
 class Configuration(models.Model):
     doctor = models.OneToOneField(User, related_name="configuration")
     office_name = models.CharField(max_length=200)
