@@ -43,42 +43,11 @@ class InfoForm(forms.Form):
     patient_id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     patient_photo = forms.CharField(widget=forms.HiddenInput(), required=False)
 
-class HiddenInfoForm(forms.Form):
-    ETHNICITY_CHOICES = (
-        ('blank', ''),
-        ('hispanic', 'Hispanic'),
-        ('not_hispanic', 'Not Hispanic'),
-        ('declined', 'Decline to self-identify'),
-    )
-    RACE_CHOICES = (
-        ('blank', ''),
-        ('indian', 'Indian'),
-        ('asian', 'Asian'),
-        ('black', 'Black'),
-        ('hawaiian', 'Hawaiian'),
-        ('white', 'White'),
-        ('declined', 'Decline to self-identify'),
-    )
-    # Demographic Fields
-    first_name = forms.CharField(widget=forms.HiddenInput(), max_length=160, required=False)
-    middle_name = forms.CharField(widget=forms.HiddenInput(), max_length=160, required=False)
-    last_name = forms.CharField(widget=forms.HiddenInput(), max_length=160, required=False)
-    address = forms.CharField(widget=forms.HiddenInput(), max_length=400, required=False)
-    zip_code = forms.CharField(widget=forms.HiddenInput(), max_length=20, required=False)
-    state = forms.CharField(widget=forms.HiddenInput(), max_length=20, required=False)
-    home_phone = forms.CharField(widget=forms.HiddenInput(), max_length=30, required=False)
-    cell_phone = forms.CharField(widget=forms.HiddenInput(), max_length=30, required=False)
-    email = forms.CharField(widget=forms.HiddenInput(), max_length=160, required=False)
-    emergency_contact_name = forms.CharField(widget=forms.HiddenInput(), max_length=200, required=False)
-    emergency_contact_phone = forms.CharField(widget=forms.HiddenInput(), max_length=30, required=False)
-    ethnicity = forms.ChoiceField(widget=forms.HiddenInput(), choices=ETHNICITY_CHOICES, required=False)
-    race = forms.ChoiceField(widget=forms.HiddenInput(), choices=RACE_CHOICES, required=False)
-    # Appointment Fields
-    scheduled_time = forms.CharField(widget=forms.HiddenInput(), max_length=200, required=False)
-    duration = forms.IntegerField(widget=forms.HiddenInput(), required=False)
-    appointment_id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
-    patient_id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
-    patient_photo = forms.CharField(widget=forms.HiddenInput(), required=False)
+class HiddenInfoForm(InfoForm):
+    def __init__(self, *args, **kwargs):
+        super(InfoForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget = forms.HiddenInput()
 
 class ConfigurationForm(forms.Form):
     office_name = forms.CharField(max_length=200)
