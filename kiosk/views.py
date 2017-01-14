@@ -45,6 +45,13 @@ def search(request):
 def verify(request, appointment_id):
     kioskMode = request.session.get('kioskMode', False)
     if request.method == 'POST':
+        try:
+            arrival = Arrival.objects.get(appointment_id=appointment_id)
+            messages.error(request, "You've already checked in for this appointment")
+            return redirect(reverse('kiosk:home'))
+        except Arrival.DoesNotExist, e:
+            # haven't checked in
+            pass
         form = InfoForm(request.POST)
         return render(request, 'kiosk-verify.html', {'form': form, 'kioskMode': kioskMode,
             'appointment_id': appointment_id})
@@ -52,6 +59,10 @@ def verify(request, appointment_id):
 
 @login_required
 def checkin(request, appointment_id):
+    DEMO_FIELDS = ['first_name', 'middle_name', 'last_name',
+            'address', 'zip_code', 'state', 'home_phone',
+            'cell_phone', 'email', 'emergency_contact_name',
+            'emergency_contact_phone', 'ethnicity', 'race']
     if request.method == 'POST':
         try:
             arrival = Arrival.objects.get(appointment_id=appointment_id)
@@ -60,19 +71,23 @@ def checkin(request, appointment_id):
         except Arrival.DoesNotExist, e:
             # haven't checked in
             pass
-        form = CheckinForm(request.POST)
+        form = InfoForm(request.POST)
         if form.is_valid():
+            updated_info = {k: v for k, v in form.cleaned_data.items() if k in DEMO_FIELDS}
+            patient_id = form.cleaned_data['patient_id']
+            update_patient(request, patient_id, updated_info)
             # Confirm SSN match?
             patient_photo = form.cleaned_data['patient_photo']
             if patient_photo == 'None':
                 patient_photo = None
+            patient_name = " ".join(filter(lambda name: bool(name), [form.cleaned_data['first_name'], form.cleaned_data['middle_name'], form.cleaned_data['last_name']]))
             arrival = Arrival(
                 doctor=request.user,
                 appointment_id=appointment_id,
                 patient_id=form.cleaned_data['patient_id'],
                 scheduled_time=form.cleaned_data['scheduled_time'],
                 duration=form.cleaned_data['duration'],
-                patient_name=form.cleaned_data['patient_name']
+                patient_name=patient_name
             )
             if patient_photo:
                 arrival.patient_photo = patient_photo
@@ -81,7 +96,3 @@ def checkin(request, appointment_id):
             messages.success(request, "You've successfully checked-in, {}. The doctor will be with you shortly. Thank you.".format(arrival.patient_name))
             return redirect(reverse('kiosk:home'))
     return redirect(reverse('kiosk:home'))
-
-@login_required
-def verify_info(request):
-    pass

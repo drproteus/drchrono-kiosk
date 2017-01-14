@@ -41,6 +41,7 @@ class InfoForm(forms.Form):
     duration = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     appointment_id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     patient_id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+    patient_photo = forms.CharField(widget=forms.HiddenInput(), required=False)
 
 class HiddenInfoForm(forms.Form):
     ETHNICITY_CHOICES = (
@@ -77,6 +78,7 @@ class HiddenInfoForm(forms.Form):
     duration = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     appointment_id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     patient_id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+    patient_photo = forms.CharField(widget=forms.HiddenInput(), required=False)
 
 class ConfigurationForm(forms.Form):
     office_name = forms.CharField(max_length=200)
