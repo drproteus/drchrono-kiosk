@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from kiosk.forms import SearchForm, ConfigurationForm, CheckinForm, DisableForm
+from kiosk.forms import SearchForm, ConfigurationForm, CheckinForm, DisableForm, InfoForm
 from kiosk.models import *
-from util.utils import *
+from drchrono.utils import *
+from django.contrib import messages
 
 @login_required
 def home(request):
@@ -23,4 +24,34 @@ def search(request):
             results = search_appointments(request,
                     first_name=searchForm.cleaned_data['first_name'],
                     last_name=searchForm.cleaned_data['last_name'])
+            results = filter(lambda patient: bool(patient['appointments']), results)
+            if not results:
+                messages.error(request, 'No appointments found for today.')
+                return redirect(reverse('kiosk:home'))
+            return render(request, 'kiosk-search-results.html',
+                    {'results': results})
     return redirect(reverse('kiosk:home'))
+
+@login_required
+def checkin(request, appointment_id):
+    if request.method == 'POST':
+        form = CheckinForm(request.POST)
+        import pdb; pdb.set_trace()
+        if form.is_valid():
+            # Confirm SSN match?
+            arrival = Arrival(
+                doctor=request.user,
+                appointment_id=appointment_id,
+                patient_id=form.cleaned_data['patient_id'],
+                scheduled_time=form.cleaned_data['scheduled_time'],
+                duration=form.cleaned_data['duration'],
+                patient_photo=form.cleaned_data['patient_photo'],
+                patient_name=form.cleaned_data['patient_name']
+            )
+            arrival.save()
+            set_appointment_status(request, appointment_id, "Arrived")
+            messages.success(request, "You've successfully checked-in, {}. The doctor will be with you shortly. Thank you.".format(arrival.patient_name))
+            return redirect(reverse('kiosk:home'))
+    return redirect(reverse('kiosk:home'))
+
+     

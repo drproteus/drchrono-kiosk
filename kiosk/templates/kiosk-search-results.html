@@ -1,0 +1,32 @@
+{% extends 'kiosk-base.html' %}
+{% block content %}
+{% if results %}
+<ul class="search-results">
+  {% for patient in results %}
+  <div class="patient-results">
+    <div class="patient-info">
+      <span>{{ patient.first_name }} </span>
+      <span>{{ patient.last_name }}</span>
+    </div>
+    <div class="patient-appointments">
+      <ul class="appointment-list">
+        {% for appointment in patient.appointments %}
+        <li class="appointment-list-item">
+          <span> {{ appointment.scheduled_time }} </span>
+          <form class="check-in-form" action="/kiosk/checkin/{{ appointment.id }}/"
+                                      method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="patient_id" value="{{ patient.id }}">
+            <input type="hidden" name="patient_name" value="{{ patient.first_name }} {{ patient.last_name }}">
+            <input type="hidden" name="patient_photo" value="{{ patient.patient_photo }}">
+            <input type="hidden" name="scheduled_time" value="{{ appointment.scheduled_time }}">
+            <input type="hidden" name="duration" value="{{ appointment.duration }}">
+            <input type="submit" value="Check-in">
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+{% endif %}
+{% endblock %}

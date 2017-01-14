@@ -1,7 +1,6 @@
 {% extends 'kiosk-base.html' %}
 {% block title %}Appointment Lookup{% endblock %}
 {% block content %}
-{% if not kioskMode %}{% include 'nav.html' %}{% endif %}
 <h1>{{ config.office_name }}</h1>
 <h3>Check-in</h3>
 <form action="/kiosk/search/" method="POST">{% csrf_token %}

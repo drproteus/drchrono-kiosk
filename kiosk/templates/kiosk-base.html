@@ -2,8 +2,17 @@
 <html>
   <head>
     {% include 'kiosk-head.html' %}
+    <title>Check-in</title>
   </head>
   <body>
+    {% if not kioskMode %}{% include 'nav.html' %}{% endif %}
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li class={{ message.tags }}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
   {% block content %}{% endblock %}
   </body>
 </html>

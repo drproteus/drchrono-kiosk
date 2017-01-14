@@ -6,7 +6,7 @@ class SearchForm(forms.Form):
     last_name = forms.CharField(max_length=160)
     ssn_tail = forms.CharField(max_length=4, label="Last Four Digits of SSN", required=False)
 
-class CheckinForm(forms.Form):
+class InfoForm(forms.Form):
     ETHNICITY_CHOICES = (
         ('blank', ''),
         ('hispanic', 'Hispanic'),
@@ -47,3 +47,10 @@ class ConfigurationForm(forms.Form):
 
 class DisableForm(forms.Form):
     exit_kiosk_key = forms.CharField(max_length=300, required=False)
+
+class CheckinForm(forms.Form):
+    patient_id = forms.IntegerField()
+    patient_name = forms.CharField(max_length=200)
+    patient_photo = forms.CharField(max_length=500)
+    scheduled_time = forms.CharField(max_length=200)
+    duration = forms.IntegerField()

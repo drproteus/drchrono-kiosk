@@ -6,7 +6,7 @@ from social.apps.django_app.default.models import UserSocialAuth
 from django.contrib.auth.decorators import login_required
 import requests
 import json
-from util.utils import doc_get, doc_post, redirect_if_kiosk
+from .utils import doc_get, doc_post, redirect_if_kiosk
 from kiosk.models import Configuration
 from kiosk.forms import ConfigurationForm, DisableForm
 from django.contrib import messages
