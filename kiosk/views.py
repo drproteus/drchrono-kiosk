@@ -36,18 +36,21 @@ def search(request):
 def checkin(request, appointment_id):
     if request.method == 'POST':
         form = CheckinForm(request.POST)
-        import pdb; pdb.set_trace()
         if form.is_valid():
             # Confirm SSN match?
+            patient_photo = form.cleaned_data['patient_photo']
+            if patient_photo == 'None':
+                patient_photo = None
             arrival = Arrival(
                 doctor=request.user,
                 appointment_id=appointment_id,
                 patient_id=form.cleaned_data['patient_id'],
                 scheduled_time=form.cleaned_data['scheduled_time'],
                 duration=form.cleaned_data['duration'],
-                patient_photo=form.cleaned_data['patient_photo'],
                 patient_name=form.cleaned_data['patient_name']
             )
+            if patient_photo:
+                arrival.patient_photo = patient_photo
             arrival.save()
             set_appointment_status(request, appointment_id, "Arrived")
             messages.success(request, "You've successfully checked-in, {}. The doctor will be with you shortly. Thank you.".format(arrival.patient_name))
