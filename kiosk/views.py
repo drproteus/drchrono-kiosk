@@ -35,6 +35,13 @@ def search(request):
 @login_required
 def checkin(request, appointment_id):
     if request.method == 'POST':
+        try:
+            arrival = Arrival.objects.get(appointment_id=appointment_id)
+            messages.error(request, "You've already checked in for this appointment")
+            return redirect(reverse('kiosk:home'))
+        except Arrival.DoesNotExist, e:
+            # haven't checked in
+            pass
         form = CheckinForm(request.POST)
         if form.is_valid():
             # Confirm SSN match?
