@@ -3,16 +3,29 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from bcrypt import hashpw, gensalt
 
+class ArrivalQueryset(models.query.QuerySet):
+    def unseen(self):
+        return self.filter(seen_at=None)
+
+class ArrivalManager(models.Manager):
+    def get_queryset(self):
+        return ArrivalQueryset(self.model, using=self.db)
+
+    def unseen(self):
+        return self.get_queryset().unseen()
+
 class Arrival(models.Model):
     appointment_id = models.IntegerField()
     patient_id = models.IntegerField()
-    doctor = models.ForeignKey(User, related_name="arrival")
+    doctor = models.ForeignKey(User, related_name="arrivals")
     scheduled_time = models.DateTimeField()
     duration = models.IntegerField()
     patient_photo = models.CharField(max_length=500, default="http://placekitten.com/g/200/200")
     patient_name = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     seen_at = models.DateTimeField(blank=True, null=True)
+
+    objects = ArrivalManager()
 
     @property
     def time_spent_waiting(self):
@@ -30,10 +43,6 @@ class Arrival(models.Model):
             return -1
         return sum([arrival.time_spent_waiting for arrival in
             arrivals]) / float(arrivals.count())
-
-    @classmethod
-    def unseen(klass):
-        return klass.objects.filter(seen_at=None)
 
 class Configuration(models.Model):
     doctor = models.OneToOneField(User, related_name="configuration")

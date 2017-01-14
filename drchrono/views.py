@@ -79,5 +79,5 @@ def config(request):
 @login_required
 @redirect_if_kiosk
 def dashboard(request):
-    arrivals = request.user.arrival.all()
+    arrivals = request.user.arrivals.unseen()
     return render(request, 'dashboard.html', {'arrivals': arrivals})
