@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from kiosk.forms import SearchForm, ConfigurationForm, CheckinForm, DisableForm
 from kiosk.models import *
+from util.utils import *
 
 @login_required
 def home(request):
@@ -17,5 +18,9 @@ def home(request):
 @login_required
 def search(request):
     if request.method == 'POST':
-        pass
+        searchForm = SearchForm(request.POST)
+        if searchForm.is_valid():
+            results = search_appointments(request,
+                    first_name=searchForm.cleaned_data['first_name'],
+                    last_name=searchForm.cleaned_data['last_name'])
     return redirect(reverse('kiosk:home'))

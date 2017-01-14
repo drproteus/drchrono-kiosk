@@ -75,3 +75,9 @@ def config(request):
         form.fields['office_name'].initial = config.office_name
         form.fields['exit_kiosk_key'].initial = config.exit_kiosk_key
     return render(request, 'config.html', {'form': form})
+
+@login_required
+@redirect_if_kiosk
+def dashboard(request):
+    arrivals = request.user.arrival.all()
+    return render(request, 'dashboard.html', {'arrivals': arrivals})

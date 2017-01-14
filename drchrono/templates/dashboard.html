@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.username }}'s Arrival Dashboard{% endblock %}
+{% block content %}
+<h1>Today's Arrivals</h1>
+{% if arrivals %}
+<ul>
+{% for arrival in arrivals %}
+<li><img src="{{ arrival.patient_photo }}"></img>
+  <p>{{ arrival.patient_name}}</p>
+  <p>Waiting since {{ arrival.created_at }}</p>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

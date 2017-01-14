@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^enable_kiosk/$', views.enable_kiosk, name='enable_kiosk'),
     url(r'^disable_kiosk/$', views.disable_kiosk, name='disable_kiosk'),
     url(r'^config/$', views.config, name='config'),
+    url(r'^dashboard/$', views.dashboard, name='dashboard'),
     url(r'^kiosk/', include('kiosk.urls', namespace='kiosk')),
 ]
