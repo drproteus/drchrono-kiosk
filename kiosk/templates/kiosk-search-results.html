@@ -13,14 +13,10 @@
         {% for appointment in patient.appointments %}
         <li class="appointment-list-item">
           <span> {{ appointment.scheduled_time }} </span>
-          <form class="check-in-form" action="/kiosk/checkin/{{ appointment.id }}/"
+          <form class="check-in-form" action="/kiosk/verify/{{ appointment.id }}/"
                                       method="POST">
             {% csrf_token %}
-            <input type="hidden" name="patient_id" value="{{ patient.id }}">
-            <input type="hidden" name="patient_name" value="{{ patient.first_name }} {{ patient.last_name }}">
-            <input type="hidden" name="patient_photo" value="{{ patient.patient_photo }}">
-            <input type="hidden" name="scheduled_time" value="{{ appointment.scheduled_time }}">
-            <input type="hidden" name="duration" value="{{ appointment.duration }}">
+            {{ appointment.form.as_p }}
             <input type="submit" value="Check-in">
           </form>
         </li>

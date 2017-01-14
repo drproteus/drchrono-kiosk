@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from kiosk.forms import SearchForm, ConfigurationForm, CheckinForm, DisableForm, InfoForm
+from kiosk.forms import SearchForm, ConfigurationForm, CheckinForm, DisableForm, InfoForm, HiddenInfoForm
 from kiosk.models import *
 from drchrono.utils import *
 from django.contrib import messages
@@ -29,8 +29,25 @@ def search(request):
             if not results:
                 messages.error(request, 'No appointments found for today.')
                 return redirect(reverse('kiosk:home'))
+            for result in results:
+                for appointment in result['appointments']:
+                    formData = {k: v for k, v in result.items() if k != 'appointments'}
+                    formData.update(appointment)
+                    formData.update({'appointment_id': appointment['id'],
+                        'patient_id': result['id']})
+                    form = HiddenInfoForm(formData)
+                    appointment['form'] = form
             return render(request, 'kiosk-search-results.html',
                     {'results': results, 'kioskMode': kioskMode})
+    return redirect(reverse('kiosk:home'))
+
+@login_required
+def verify(request, appointment_id):
+    kioskMode = request.session.get('kioskMode', False)
+    if request.method == 'POST':
+        form = InfoForm(request.POST)
+        return render(request, 'kiosk-verify.html', {'form': form, 'kioskMode': kioskMode,
+            'appointment_id': appointment_id})
     return redirect(reverse('kiosk:home'))
 
 @login_required
@@ -65,4 +82,6 @@ def checkin(request, appointment_id):
             return redirect(reverse('kiosk:home'))
     return redirect(reverse('kiosk:home'))
 
-     
+@login_required
+def verify_info(request):
+    pass
