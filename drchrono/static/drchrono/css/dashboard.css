@@ -85,15 +85,40 @@ a.logout:hover, .logout:hover{
     padding: 20px;
 }
 
-h3 {
-    display: inline-block;
-    border-bottom: 1px dotted #aaa;
-}
-
 /* Forms */
 .form-display {
     background: #ddd;
     padding: 20px;
     border-radius: 10px;
     border: 1px solid #aaa;
+}
+
+/* Dashboard */
+.arrivals {
+    min-height: 400px;
+}
+
+/* Categorize Later!!! */
+.waiting-time {
+  clear:both;
+}
+body {
+  margin-bottom: 40px;
+}
+html {
+  position: relative;
+}
+.waiting-time {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 40px;
+  padding: 10px;
+  background: #ddd;
+  border-top: 1px solid #aaa;
+  width: 100%;
+}
+
+.time-header {
+  font-weight: bold;
 }

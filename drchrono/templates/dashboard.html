@@ -2,6 +2,7 @@
 {% block title %}{{ user.username }}'s Arrival Dashboard{% endblock %}
 {% block content %}
 <div class="container">
+<div class="arrivals">
 <h1>Today's Arrivals</h1>
 {% if arrivals %}
 <ul>
@@ -23,6 +24,7 @@
 {% else %}
 <p>No patients yet! Take a breather-- you've earned it.</p>
 {% endif %}
+</div>
 
 {% include 'wait-time-info.html' %}
 </div>

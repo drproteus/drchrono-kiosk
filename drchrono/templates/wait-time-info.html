@@ -1,9 +1,3 @@
-<style>
-.waiting-time {
-  clear:both;
-}
-</style>
 <div class="waiting-time">
-  <h3>The Average Waiting Time Is:</h3>
-  <p><span class="time">{{ average_wait_time }}</span> seconds.</p>
+  {% include 'get-time-info.html' %}
 </div>
