@@ -17,7 +17,11 @@ def index(request):
     if not request.user.is_authenticated():
         return redirect(reverse('login'))
     config = Configuration.get_config_for_user(request.user)
-    return render(request, 'index.html', {})
+    if not config:
+        messages.warning(request, "Please Create a Configuration for the Kiosk")
+        return redirect(reverse('config'))
+    hideNav = True
+    return render(request, 'index.html', {'config': config, 'hideNav': hideNav})
 
 @redirect_if_kiosk
 def login_view(request):
@@ -75,16 +79,18 @@ def config(request):
         config = configs.first()
         form.fields['office_name'].initial = config.office_name
         form.fields['exit_kiosk_key'].initial = config.exit_kiosk_key
-    return render(request, 'config.html', {'form': form})
+    return render(request, 'config.html', {'form': form, 'config': config})
 
 @login_required
 @redirect_if_kiosk
 def dashboard(request):
+    config = Configuration.get_config_for_user(request.user)
     average_wait_time = Arrival.average_wait_time(request.user)
     arrivals = request.user.arrivals.incomplete()
     return render(request, 'dashboard.html',
             {'arrivals': arrivals,
-                'average_wait_time': average_wait_time})
+                'average_wait_time': average_wait_time,
+                'config': config})
 
 @login_required
 @redirect_if_kiosk

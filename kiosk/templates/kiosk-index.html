@@ -1,7 +1,7 @@
 {% extends 'kiosk-base.html' %}
 {% block title %}Appointment Lookup{% endblock %}
 {% block content %}
-<h1>{{ config.office_name }}</h1>
+<div class="kiosk-home-banner">{{ config.office_name }}</div>
 <h3>Check-in</h3>
 <form action="/kiosk/search/" method="POST">{% csrf_token %}
   {{ form.as_p }}

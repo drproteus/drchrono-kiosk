@@ -1,4 +1,42 @@
 {% extends 'base.html'  %}
 {% block title %}Welcome, {{ user.username }}.{% endblock %}
 {% block content %}
+<div class="kiosk-home-banner"><a href="/">{{ config.office_name }}</a></div>
+<ul class="kiosk-home-buttons">
+    <a href="/dashboard/">
+        <li>
+            <div class="kiosk-home-button">
+                Dashboard
+            </div>
+        </li>
+    </a>
+    <a href="/kiosk/">
+        <li>
+            <div class="kiosk-home-button">
+                View Kiosk
+            </div>
+        </li>
+    </a>
+    <a href="/enable_kiosk/">
+        <li>
+            <div class="kiosk-home-button">
+                Enable Kiosk Mode
+            </div>
+        </li>
+    </a>
+    <a href="/config/">
+        <li>
+            <div class="kiosk-home-button">
+                Configure
+            </div>
+        </li>
+    </a>
+    <a href="/logout/">
+        <li>
+            <div class="kiosk-home-button logout">
+                Logout
+            </div>
+        </li>
+    </a>
+</ul>
 {% endblock %}
