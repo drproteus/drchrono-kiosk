@@ -1,5 +1,6 @@
 {% extends 'kiosk-base.html' %}
 {% block content %}
+<div class="container">
 {% if results %}
 <ul class="search-results">
   {% for patient in results %}
@@ -27,4 +28,5 @@
 </ul>
 <a href="/kiosk/">[ Start Over ]</a>
 {% endif %}
+</div>
 {% endblock %}

@@ -1,10 +1,11 @@
 {% extends 'kiosk-base.html' %}
 {% block content %}
+<div class="container">
 <h1>Please Verify Your Information To Check-In</h1>
 <form action="/kiosk/checkin/{{ appointment_id }}/" method="POST">{% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Verify and Check-In"/>
 </form>
 <a href="/kiosk/">[ Start Over ]</a>
+</div>
 {% endblock %}
-

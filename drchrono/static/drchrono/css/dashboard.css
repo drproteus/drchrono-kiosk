@@ -76,3 +76,10 @@
 a.logout:hover, .logout:hover{
     background: red;
 }
+
+/* Container */
+.container {
+    width: 980px;
+    margin: auto;
+    padding: 20px;
+}
