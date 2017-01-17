@@ -48,7 +48,7 @@ class Arrival(models.Model):
 
     @property
     def in_session(self):
-        return not (self.unseen and self.completed)
+        return not self.unseen and not self.completed
 
     @property
     def time_spent_waiting(self):
