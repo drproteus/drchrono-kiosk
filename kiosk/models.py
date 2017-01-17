@@ -7,12 +7,24 @@ class ArrivalQueryset(models.query.QuerySet):
     def unseen(self):
         return self.filter(seen_at=None)
 
+    def incomplete(self):
+        return self.filter(completed=False)
+
+    def completed(self):
+        return self.filter(completed=True)
+
 class ArrivalManager(models.Manager):
     def get_queryset(self):
         return ArrivalQueryset(self.model, using=self.db)
 
     def unseen(self):
         return self.get_queryset().unseen()
+
+    def incomplete(self):
+        return self.get_queryset().incomplete()
+
+    def completed(self):
+        return self.get_queryset().completed()
 
 class Arrival(models.Model):
     appointment_id = models.IntegerField()
@@ -26,8 +38,17 @@ class Arrival(models.Model):
     patient_name = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     seen_at = models.DateTimeField(blank=True, null=True)
+    completed = models.BooleanField(default=False)
 
     objects = ArrivalManager()
+
+    @property
+    def unseen(self):
+        return not bool(self.seen_at)
+
+    @property
+    def in_session(self):
+        return not (self.unseen and self.completed)
 
     @property
     def time_spent_waiting(self):
@@ -39,8 +60,8 @@ class Arrival(models.Model):
             return (timezone.now() - self.created_at).seconds
 
     @classmethod
-    def average_wait_time(klass):
-        arrivals = klass.objects.all()
+    def average_wait_time(klass, doctor):
+        arrivals = klass.objects.filter(doctor=doctor)
         if arrivals.count() < 1:
             return -1
         return sum([arrival.time_spent_waiting for arrival in

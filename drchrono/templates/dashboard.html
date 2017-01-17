@@ -5,12 +5,23 @@
 {% if arrivals %}
 <ul>
 {% for arrival in arrivals %}
-<li><img src="{{ arrival.patient_photo }}" width="200" height="200" style="float: left"></img>
+<li>{% if arrival.in_session %}<h3>In-Session</h3>{% endif %}
+    <img src="{{ arrival.patient_photo }}" width="200" height="200" style="float: left"></img>
   <p>{{ arrival.patient_name}}</p>
   <p>Reason for Visit: {{ arrival.reason }}</p>
+  {% if arrival.unseen %}
   <p>Waiting since {{ arrival.created_at }}</p>
+  <a href="/see_patient/{{ arrival.id }}">See Patient</a>
+  {% elif arrival.in_session %}
+  <p>Checked-in at {{ arrival.created_at }}</p>
+  <a href="/complete_appointment/{{ arrival.id }}">End Appointment</a>
+  {% endif %}
 </li>
 {% endfor %}
 </ul>
+{% else %}
+<p>No patients yet! Take a breather-- you've earned it.</p>
 {% endif %}
+
+{% include 'wait-time-info.html' %}
 {% endblock %}
