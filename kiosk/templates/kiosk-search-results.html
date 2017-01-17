@@ -1,7 +1,9 @@
 {% extends 'kiosk-base.html' %}
 {% block content %}
 <div class="container">
+<div class="kiosk-home-banner">{{ config.office_name }}</div>
 {% if results %}
+<h1 class="center">Appointment Results</h1>
 <ul class="search-results">
   {% for patient in results %}
   <div class="patient-results">
@@ -26,7 +28,8 @@
     </div>
   {% endfor %}
 </ul>
-<a href="/kiosk/">[ Start Over ]</a>
 {% endif %}
+<br><br>
+<a href="/kiosk/" class="btn float-right">Start Over</a>
 </div>
 {% endblock %}

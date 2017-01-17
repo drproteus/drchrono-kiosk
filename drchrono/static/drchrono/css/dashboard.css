@@ -192,3 +192,25 @@ html {
 .time-header {
   font-weight: bold;
 }
+
+.btn {
+    text-decoration: none;
+    color: inherit;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+}
+
+.btn:hover {
+    color: white;
+    background: black;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-left {
+    float: left;
+}

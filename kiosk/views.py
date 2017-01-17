@@ -19,6 +19,7 @@ def home(request):
 @login_required
 def search(request):
     kioskMode = request.session.get('kioskMode', False)
+    config = Configuration.get_config_for_user(request.user)
     if request.method == 'POST':
         searchForm = SearchForm(request.POST)
         if searchForm.is_valid():
@@ -38,12 +39,14 @@ def search(request):
                     form = HiddenInfoForm(formData)
                     appointment['form'] = form
             return render(request, 'kiosk-search-results.html',
-                    {'results': results, 'kioskMode': kioskMode})
+                    {'results': results, 'kioskMode': kioskMode,
+                        'config': config})
     return redirect(reverse('kiosk:home'))
 
 @login_required
 def verify(request, appointment_id):
     kioskMode = request.session.get('kioskMode', False)
+    config = Configuration.get_config_for_user(request.user)
     if request.method == 'POST':
         try:
             arrival = Arrival.objects.get(appointment_id=appointment_id)
@@ -54,7 +57,7 @@ def verify(request, appointment_id):
             pass
         form = InfoForm(request.POST)
         return render(request, 'kiosk-verify.html', {'form': form, 'kioskMode': kioskMode,
-            'appointment_id': appointment_id})
+            'appointment_id': appointment_id, 'config': config})
     return redirect(reverse('kiosk:home'))
 
 @login_required
