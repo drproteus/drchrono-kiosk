@@ -10,4 +10,5 @@ html, body {
 
 html {
     font-family: sans-serif;
+    position: relative;
 }
