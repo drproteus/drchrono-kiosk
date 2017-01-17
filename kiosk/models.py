@@ -63,7 +63,7 @@ class Arrival(models.Model):
     def average_wait_time(klass, doctor):
         arrivals = klass.objects.filter(doctor=doctor)
         if arrivals.count() < 1:
-            return -1
+            return 0
         return sum([arrival.time_spent_waiting for arrival in
             arrivals]) / float(arrivals.count())
 
