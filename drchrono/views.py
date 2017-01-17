@@ -1,15 +1,16 @@
 from django.contrib.auth import logout
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.core.urlresolvers import reverse
 from social.apps.django_app.default.models import UserSocialAuth
 from django.contrib.auth.decorators import login_required
 import requests
 import json
-from .utils import doc_get, doc_post, redirect_if_kiosk
-from kiosk.models import Configuration
+from .utils import *
+from kiosk.models import Configuration, Arrival
 from kiosk.forms import ConfigurationForm, DisableForm
 from django.contrib import messages
+from django.utils import timezone
 
 @redirect_if_kiosk
 def index(request):
@@ -79,5 +80,31 @@ def config(request):
 @login_required
 @redirect_if_kiosk
 def dashboard(request):
-    arrivals = request.user.arrivals.unseen()
-    return render(request, 'dashboard.html', {'arrivals': arrivals})
+    average_wait_time = Arrival.average_wait_time(request.user)
+    arrivals = request.user.arrivals.incomplete()
+    return render(request, 'dashboard.html',
+            {'arrivals': arrivals,
+                'average_wait_time': average_wait_time})
+
+@login_required
+@redirect_if_kiosk
+def see_patient(request, arrival_id):
+    arrival = get_object_or_404(Arrival, id=arrival_id)
+    appointment_id = arrival.appointment_id
+    set_appointment_status(request, appointment_id, "In Session")
+    arrival.seen_at = timezone.now()
+    arrival.save()
+    messages.info(request, "You will now see {}.".format(arrival.patient_name))
+    return redirect(reverse('dashboard'))
+
+@login_required
+@redirect_if_kiosk
+def complete_appointment(request, arrival_id):
+    arrival = get_object_or_404(Arrival, id=arrival_id)
+    appointment_id = arrival.appointment_id
+    set_appointment_status(request, appointment_id, "Complete")
+    arrival.completed = True
+    arrival.save()
+    messages.info(request,
+            "You have completed your appointment with {}".format(arrival.patient_name))
+    return redirect(reverse('dashboard'))
