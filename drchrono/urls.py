@@ -7,9 +7,9 @@ import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^login/$', views.login_view, name='login'),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^login/$', views.login_view, name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^enable_kiosk/$', views.enable_kiosk, name='enable_kiosk'),
     url(r'^disable_kiosk/$', views.disable_kiosk, name='disable_kiosk'),

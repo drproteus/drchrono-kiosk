@@ -5,8 +5,9 @@
 {% if arrivals %}
 <ul>
 {% for arrival in arrivals %}
-<li><img src="{{ arrival.patient_photo }}"></img>
+<li><img src="{{ arrival.patient_photo }}" width="200" height="200" style="float: left"></img>
   <p>{{ arrival.patient_name}}</p>
+  <p>Reason for Visit: {{ arrival.reason }}</p>
   <p>Waiting since {{ arrival.created_at }}</p>
 </li>
 {% endfor %}

@@ -62,7 +62,7 @@ def checkin(request, appointment_id):
     DEMO_FIELDS = ['first_name', 'middle_name', 'last_name',
             'address', 'zip_code', 'state', 'home_phone',
             'cell_phone', 'email', 'emergency_contact_name',
-            'emergency_contact_phone', 'ethnicity', 'race']
+            'emergency_contact_phone', 'ethnicity', 'race', 'city']
     if request.method == 'POST':
         try:
             arrival = Arrival.objects.get(appointment_id=appointment_id)
@@ -87,12 +87,17 @@ def checkin(request, appointment_id):
                 patient_id=form.cleaned_data['patient_id'],
                 scheduled_time=form.cleaned_data['scheduled_time'],
                 duration=form.cleaned_data['duration'],
+                reason=form.cleaned_data['reason'],
                 patient_name=patient_name
             )
             if patient_photo:
                 arrival.patient_photo = patient_photo
             arrival.save()
-            set_appointment_status(request, appointment_id, "Arrived")
+            update_appointment_data = {
+                    "status": "Arrived",
+                    "reason": form.cleaned_data['reason'],
+            }
+            update_appointment(request, appointment_id, update_appointment_data)
             messages.success(request, "You've successfully checked-in, {}. The doctor will be with you shortly. Thank you.".format(arrival.patient_name))
             return redirect(reverse('kiosk:home'))
     return redirect(reverse('kiosk:home'))

@@ -22,11 +22,16 @@ class InfoForm(forms.Form):
         ('white', 'White'),
         ('declined', 'Decline to self-identify'),
     )
+    # Reason Field (at the top, since it won't be hidden)
+    reason = forms.CharField(widget=forms.Textarea, max_length=500,
+            required=False, label="Reason for Visit")
     # Demographic Fields
     first_name = forms.CharField(max_length=160, required=False)
     middle_name = forms.CharField(max_length=160, required=False)
     last_name = forms.CharField(max_length=160, required=False)
-    address = forms.CharField(widget=forms.Textarea, max_length=400, required=False)
+    address = forms.CharField(widget=forms.Textarea, max_length=400, required=False,
+            label="Street Address")
+    city = forms.CharField(max_length=200, required=False)
     zip_code = forms.CharField(max_length=20, required=False)
     state = forms.CharField(max_length=20, required=False)
     home_phone = forms.CharField(max_length=30, required=False)

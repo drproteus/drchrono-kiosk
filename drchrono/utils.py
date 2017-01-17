@@ -80,23 +80,10 @@ def set_appointment_status(request, appointment_id, new_status, user=None):
     data = {"status": new_status}
     return doc_patch(request, url, data=data, user=user)
 
-def get_patient(request, patient_id, user=None, params=None):
-    url = "{}/patients/{}".format(API_ROOT, patient_id)
-    response = doc_get(request, url, user=user, params=params)
+def update_appointment(request, appointment_id, data, user=None):
+    url = "{}/appointments/{}".format(API_ROOT, appointment_id)
+    response = doc_patch(request, url, data, user=user)
     return response
-
-def update_patient(request, patient_id, data, user=None):
-    url = "{}/patients/{}".format(API_ROOT, patient_id)
-    return doc_patch(request, url, data, user=user)
-
-def get_patients(request, user=None, params=None):
-    url = "{}/patients".format(API_ROOT)
-    patients = []
-    while url:
-        response = doc_get(request, url, user=user, params=params)
-        patients.extend(response['results'])
-        url = response['next']
-    return patients
 
 def get_todays_appointments_for_multiple(request, patient_ids=None, user=None):
     if not patient_ids:
@@ -123,6 +110,24 @@ def search_appointments(request, first_name=None, last_name=None, user=None):
     for patient in patients:
         appointments = get_todays_appointments(request, for_patient=patient['id'], user=user)
         patient['appointments'] = appointments
+    return patients
+
+def get_patient(request, patient_id, user=None, params=None):
+    url = "{}/patients/{}".format(API_ROOT, patient_id)
+    response = doc_get(request, url, user=user, params=params)
+    return response
+
+def update_patient(request, patient_id, data, user=None):
+    url = "{}/patients/{}".format(API_ROOT, patient_id)
+    return doc_patch(request, url, data, user=user)
+
+def get_patients(request, user=None, params=None):
+    url = "{}/patients".format(API_ROOT)
+    patients = []
+    while url:
+        response = doc_get(request, url, user=user, params=params)
+        patients.extend(response['results'])
+        url = response['next']
     return patients
 
 #-------------------------------------------------------------------------------
