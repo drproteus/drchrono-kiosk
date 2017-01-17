@@ -2,7 +2,7 @@
 {% block title %}Update Kiosk Configuration{% endblock %}
 {% block content %}
 <div class="container">
-<h3>Configure Your Kiosk</h3>
+<h1 class="center">Configure Your Kiosk</h1>
 <form action="/config/" method="POST" class="form-display">{% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Submit"/>

@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
 <div class="kiosk-home-banner">{{ config.office_name }}</div>
-<h3>Check-in</h3>
+<h1 class="center">Check-in</h1>
 <form action="/kiosk/search/" method="POST" class="form-display">{% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Search"/>
