@@ -172,12 +172,6 @@ a.logout:hover, .logout:hover{
 .waiting-time {
   clear:both;
 }
-body {
-  margin-bottom: 40px;
-}
-html {
-  position: relative;
-}
 .waiting-time {
   position: fixed;
   left: 0;
