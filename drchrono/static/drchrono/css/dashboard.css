@@ -77,11 +77,17 @@ a.logout:hover, .logout:hover{
     background: red;
 }
 
+
 /* Container */
 .container {
     width: 980px;
     margin: auto;
     padding: 20px;
+}
+
+h3 {
+    display: inline-block;
+    border-bottom: 1px dotted #aaa;
 }
 
 /* Forms */

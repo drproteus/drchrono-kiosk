@@ -4,13 +4,13 @@
 <div class="container">
 <div class="kiosk-home-banner">{{ config.office_name }}</div>
 <h3>Check-in</h3>
-<form action="/kiosk/search/" method="POST">{% csrf_token %}
+<form action="/kiosk/search/" method="POST" class="form-display">{% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Search"/>
 </form>
 {% if kioskMode %}
 <p>Kiosk Mode Enabled</p>
-<form action="/disable_kiosk/" method="POST">{% csrf_token %}
+<form action="/disable_kiosk/" method="POST" class="disable-kiosk-form">{% csrf_token %}
   {{ disable.as_p }}
   <input type="submit" value="Disable Kiosk Mode"/>
 </form>
