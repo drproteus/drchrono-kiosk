@@ -9,7 +9,9 @@
     {% if messages %}
     <ul class="messages">
       {% for message in messages %}
-      <li class={{ message.tags }}>{{ message }}</li>
+      <li class="{{ message.tags }}">{{ message }}
+        <a href="#" class="float-right unstyled" onclick="this.parentElement.remove();">✖</a>
+      </li>
       {% endfor %}
     </ul>
     {% endif %}

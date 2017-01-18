@@ -41,6 +41,9 @@ def search(request):
             return render(request, 'kiosk-search-results.html',
                     {'results': results, 'kioskMode': kioskMode,
                         'config': config})
+        else:
+            if 'This field is required.' in searchForm.errors.get('last_name', ''):
+                messages.error(request, "Need to specify at least a last name to search on.")
     return redirect(reverse('kiosk:home'))
 
 @login_required

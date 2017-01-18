@@ -82,7 +82,7 @@
 }
     
 a.logout:hover, .logout:hover{
-    background: red;
+    background: crimson;
 }
 
 
@@ -173,6 +173,11 @@ a.logout:hover, .logout:hover{
 }
 
 /* Categorize Later!!! */
+.unstyled {
+    text-decoration: none;
+    color: inherit;
+}
+
 .waiting-time {
   clear:both;
 }
@@ -211,4 +216,29 @@ a.logout:hover, .logout:hover{
 
 .float-left {
     float: left;
+}
+
+/* Flash Messages */
+ul.messages {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    padding: 0;
+    list-style: none;
+    margin: auto;
+}
+
+ul.messages li {
+    margin: auto;
+    width: 400px;
+    background: #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    height: 40px;
+    padding: 10px;
+}
+
+ul.messages li.error {
+    background: crimson;
+    color: white;
 }
