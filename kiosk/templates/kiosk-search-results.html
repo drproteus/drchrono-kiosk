@@ -1,9 +1,10 @@
 {% extends 'kiosk-base.html' %}
+{% load kiosk_extras %}
 {% block content %}
 <div class="container">
 <div class="kiosk-home-banner">{{ config.office_name }}</div>
 {% if results %}
-<h1 class="center">Appointment Results</h1>
+<h1 class="center">Your Appointments for Today</h1>
 <ul class="search-results">
   {% for patient in results %}
   <div class="patient-results">
@@ -15,7 +16,7 @@
       <ul class="appointment-list">
         {% for appointment in patient.appointments %}
         <li class="appointment-list-item">
-          <span> {{ appointment.scheduled_time }} </span>
+          <span> {{ appointment.scheduled_time|time_format }} </span>
           <form class="check-in-form" action="/kiosk/verify/{{ appointment.id }}/"
                                       method="POST">
             {% csrf_token %}
