@@ -170,6 +170,7 @@ a.logout:hover, .logout:hover{
 /* Dashboard */
 .arrivals {
     min-height: 400px;
+    padding: 0;
 }
 
 /* Categorize Later!!! */
@@ -197,6 +198,7 @@ a.logout:hover, .logout:hover{
 }
 
 .btn {
+    font-weight: bold;
     text-decoration: none;
     color: inherit;
     font-size: 14px;
@@ -243,5 +245,74 @@ ul.messages li {
 
 ul.messages li.error {
     background: crimson;
+    color: white;
+}
+
+/* Dashboard//Arrivals */
+.arrivals {
+    list-style: none;
+}
+
+.arrival {
+    clear: both;
+    overflow: auto;
+    background: #ddd;
+    width: 100%;
+}
+
+.in-session {
+    background: rebeccapurple;
+    padding: 12px;
+    margin: 0;
+    color: white;
+}
+
+.arrival img {
+    overflow: hidden;
+}
+
+.arrival .arrival-info {
+    float: right;
+    padding: 20px;
+    width: 75%;
+    padding-left: 0;
+}
+
+.arrival-info h3 {
+    border-bottom: 1px dotted #ddd;
+}
+.arrival-info p, .arrival-info h3 {
+    background: white;
+    margin: 0;
+    padding: 8px;
+}
+
+.arrival-info a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.arrival-info a:hover {
+    color: rebeccapurple;
+}
+
+.arrival .arrival-photo {
+    float: left;
+    margin: 20px auto;
+    text-align: center;
+    width: 25%;
+}
+
+.arrival .btn {
+    background: white;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border: 0;
+    border-top: 1px dotted #ddd;
+    margin-left: 10px;
+}
+
+.arrival .btn:hover {
+    background: black;
     color: white;
 }

@@ -94,6 +94,17 @@ def dashboard(request):
 
 @login_required
 @redirect_if_kiosk
+def archive(request):
+    config = Configuration.get_config_for_user(request.user)
+    average_wait_time = Arrival.average_wait_time(request.user)
+    arrivals = request.user.arrivals.completed()
+    return render(request, 'archive.html', 
+            {'arrivals': arrivals,
+                'average_wait_time': average_wait_time,
+                'config': config})
+
+@login_required
+@redirect_if_kiosk
 def see_patient(request, arrival_id):
     arrival = get_object_or_404(Arrival, id=arrival_id)
     appointment_id = arrival.appointment_id

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ user.username }}'s Arrival Archive{% endblock %}
+{% block content %}
+<div class="container">
+<div class="arrivals">
+<h1>Archived Arrivals</h1>
+<a href="/dashboard/">Return to Dashboard</a>
+{% include 'arrivals.html' %}
+</div>
+
+{% include 'wait-time-info.html' %}
+</div>
+{% endblock %}

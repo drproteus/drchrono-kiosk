@@ -18,5 +18,6 @@ urlpatterns = [
     url(r'^see_patient/(\d+)/$', views.see_patient, name='see_patient'),
     url(r'^complete_appointment/(\d+)/$', views.complete_appointment,
         name='complete_appointment'),
+    url(r'^archive/$', views.archive, name="archive"),
     url(r'^kiosk/', include('kiosk.urls', namespace='kiosk')),
 ]
