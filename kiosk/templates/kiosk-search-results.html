@@ -8,24 +8,28 @@
 <ul class="search-results">
   {% for patient in results %}
   <div class="patient-results">
-    <div class="patient-info">
-      <span>{{ patient.first_name }} </span>
-      <span>{{ patient.last_name }}</span>
-    </div>
-    <div class="patient-appointments">
-      <ul class="appointment-list">
-        {% for appointment in patient.appointments %}
-        <li class="appointment-list-item">
-          <span> {{ appointment.scheduled_time|time_format }} </span>
-          <form class="check-in-form" action="/kiosk/verify/{{ appointment.id }}/"
-                                      method="POST">
-            {% csrf_token %}
-            {{ appointment.form.as_p }}
-            <input type="submit" value="Check-in">
-          </form>
-        </li>
-        {% endfor %}
-      </ul>
+    <div class="search-result">
+        <div class="patient-info">
+          <span>{{ patient.first_name }} </span>
+          {% if patient.middle_name %}
+          <span> {{ patient.middle_name }} </span>
+          <span>{{ patient.last_name }}</span>
+        </div>
+        <div class="patient-appointments">
+          <ul class="appointment-list">
+            {% for appointment in patient.appointments %}
+            <li class="appointment-list-item">
+              <div class="appointment-time"> {{ appointment.scheduled_time|time_format }} </span>
+              <form class="check-in-form" action="/kiosk/verify/{{ appointment.id }}/"
+                                          method="POST">
+                {% csrf_token %}
+                {{ appointment.form.as_p }}
+                <input type="submit" value="Check-in">
+              </form>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
     </div>
   {% endfor %}
 </ul>
