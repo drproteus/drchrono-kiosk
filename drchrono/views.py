@@ -163,6 +163,7 @@ def check_if_new_arrivals(request, mark_as_read=True):
             response['new_arrivals'] = []
         response['new_arrivals'].append({'patient_name': arrival.patient_name,
             'scheduled_time': arrival.scheduled_time.strftime('%H:%M:%S %p'), 
-            'checked_in': arrival.created_at.strftime('%H:%M:%S %p')})
+            'checked_in': arrival.created_at.strftime('%H:%M:%S %p'),
+            'patient_photo': arrival.patient_photo})
     arrivals.update(new=False)
     return HttpResponse(json.dumps(response), content_type="application/json")

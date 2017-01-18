@@ -118,9 +118,22 @@ Notification.requestPermission().then(function(result) {
   console.log(result);
 });
 
-function newNotification(body) {
-  var options = {body: body}
+function newNotification(body, icon) {
+  if (window.notifications === undefined) {
+    window.notifications = [];
+  }
+  var options = {
+    body: body,
+    icon: icon, 
+  }
   var n = new Notification('New Check-In', options);
+  window.notifications.push(n);
+  n.onclick = function() {
+    window.notifications.forEach(function(item) {
+      item.close();
+    });
+    window.location = 'http://localhost:8000/dashboard/';
+  }
 }
 
 function arrivalNotifyLoop() {
@@ -130,7 +143,7 @@ function arrivalNotifyLoop() {
       data = JSON.parse(request.response);
       if (data['new_arrival_count'] > 0) {
         data['new_arrivals'].forEach(function(arrival) {
-         newNotification(arrival['patient_name'] + " checked-in for their " + arrival['scheduled_time'] + " at " + arrival['checked_in'] + ".");
+         newNotification(arrival['patient_name'] + " checked-in for their " + arrival['scheduled_time'] + " at " + arrival['checked_in'] + ".", arrival['patient_photo']);
         });
         refreshArrivals();
       }
