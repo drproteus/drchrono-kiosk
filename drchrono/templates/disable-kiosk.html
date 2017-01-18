@@ -1,0 +1,30 @@
+<a href="#" onclick="toggleModal();"
+    class="float-left" style="text-decoration: none; color: #ddd; font-size: 20px;">⚙</a>
+<div class="kiosk-disable-modal" hidden style="clear: both;">
+    <form action="/disable_kiosk/" method="POST"
+        class="disable-kiosk-form form-display">{% csrf_token %}
+        <a href="#" onclick="this.parentElement.parentElement.hidden = true;"
+            class="float-right" style="text-decoration: none; color: inherit;">✖</a> 
+      {{ disable.as_p }}
+      <input type="submit" value="Disable Kiosk Mode"/>
+    </form>
+</div>
+
+<script>
+function toggleModal() {
+    var modal = document.querySelector('.kiosk-disable-modal');
+    if (modal.hidden === true) {
+        modal.hidden = false;
+    } else {
+        modal.hidden = true;
+    }
+}
+</script>
+
+<style>
+.kiosk-disable-modal {
+    position: absolute;
+    top: 20px;
+    left: 0;
+}
+</style>

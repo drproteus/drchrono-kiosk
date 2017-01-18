@@ -1,6 +1,9 @@
 {% extends 'kiosk-base.html' %}
 {% block title %}Appointment Lookup{% endblock %}
 {% block content %}
+{% if kioskMode %}
+{% include 'disable-kiosk.html' %}
+{% endif %}
 <div class="container">
 <div class="kiosk-home-banner">{{ config.office_name }}</div>
 <h1 class="center">Check-in</h1>
@@ -8,12 +11,5 @@
   {{ form.as_p }}
   <input type="submit" value="Search"/>
 </form>
-{% if kioskMode %}
-<p>Kiosk Mode Enabled</p>
-<form action="/disable_kiosk/" method="POST" class="disable-kiosk-form">{% csrf_token %}
-  {{ disable.as_p }}
-  <input type="submit" value="Disable Kiosk Mode"/>
-</form>
-{% endif %}
 </div>
 {% endblock %}
