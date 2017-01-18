@@ -34,9 +34,23 @@ function initTime() {
 function messageExpiry() {
   window.setTimeout(function() {
     try { 
-      document.querySelector('.messages').remove();
+      fadeOut(document.querySelector('.messages'));
     } catch(err) {}
   }, 5000);
+}
+
+function fade(element) {
+  element.style['opacity'] = String(Number(element.style['opacity']) - 0.1);
+  if (element.style['opacity'] !== '0.0') {
+    window.setTimeout(fade, 50, element);
+  } else {
+    element.remove();
+  }
+}
+
+function fadeOut(element) {
+  element.style['opacity'] = "1.0";
+  fade(element);
 }
 
 ready(messageExpiry);
