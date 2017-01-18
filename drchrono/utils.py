@@ -90,6 +90,11 @@ def update_appointment(request, appointment_id, data, user=None):
     response = doc_patch(request, url, data, user=user)
     return response
 
+def get_appointment(request, appointment_id, user=None, params=None):
+    url = "{}/appointments/{}".format(API_ROOT, appointment_id)
+    response = doc_get(request, url, user=user, params=params)
+    return response
+
 def get_todays_appointments_for_multiple(request, patient_ids=None, user=None):
     if not patient_ids:
         patient_ids = []
