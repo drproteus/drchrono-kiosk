@@ -59,7 +59,8 @@ class ConfigurationForm(forms.Form):
     exit_kiosk_key = forms.CharField(max_length=300, required=False)
 
 class DisableForm(forms.Form):
-    exit_kiosk_key = forms.CharField(max_length=300, required=False)
+    exit_kiosk_key = forms.CharField(max_length=300, required=False,
+            widget=forms.TextInput(attrs={'autocomplete': 'off'}))
 
 class CheckinForm(forms.Form):
     patient_id = forms.IntegerField()
