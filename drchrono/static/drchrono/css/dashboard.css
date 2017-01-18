@@ -341,3 +341,62 @@ ul.messages li.error {
     left: 5px;
     box-shadow: 2px 2px 0 0 #aaa;
 }
+
+/* Search Results */
+ul.search-results {
+    padding: 0;
+    width: 100%;
+    margin: auto;
+}
+
+.search-results {
+    min-height: 100px;
+    background: #ddd;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.patient-info {
+    width: 100%;
+    padding: 20px;
+    font-weight: bold;
+    background: green;
+    color: white;
+    text-align: center;
+    border-bottom: 1px dotted white;
+}
+
+ul.appointment-list {
+    padding: 0;
+    list-style: none;
+}
+
+.appointment-list-item {
+    overflow: auto;
+    clear: both;
+}
+
+.appointment-time {
+    float: left;
+    width: 75%;
+    padding: 20px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 20px;
+}
+
+.check-in-form input[type="submit"] {
+    float: right;
+    width: 25%;
+    height: 63px;
+    background: black;
+    color: white;
+    border: 0;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.check-in-form input[type="submit"]:hover {
+    background: rebeccapurple;
+    cursor: pointer;
+}

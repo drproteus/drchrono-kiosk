@@ -20,7 +20,7 @@
           <ul class="appointment-list">
             {% for appointment in patient.appointments %}
             <li class="appointment-list-item">
-              <div class="appointment-time"> {{ appointment.scheduled_time|time_format }} </span>
+                <div class="appointment-time"> {{ appointment.scheduled_time|time_format }} </span></div>
               <form class="check-in-form" action="/kiosk/verify/{{ appointment.id }}/"
                                           method="POST">
                 {% csrf_token %}
