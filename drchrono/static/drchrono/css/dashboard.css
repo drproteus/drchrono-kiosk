@@ -404,9 +404,22 @@ ul.appointment-list {
 /* Timebar */
 .todays-date {
     float: left;
-    width: 50%;
+    width: 33%;
+    text-align: center;
 }
 .the-time {
-    float: right;
+    float: left;
     font-weight: bold;
+    width: 33%;
+    text-align: center;
+}
+
+.reset {
+    width: 33%;
+    float: left;
+    text-align: center;
+}
+
+.reset .btn {
+    border: 0;
 }
