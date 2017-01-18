@@ -67,7 +67,7 @@ def doc_patch(request, url, data, headers=None, raw=False, user=None):
 #-------------------------------------------------------------------------------
 def get_todays_appointments(request, for_patient=None, user=None, only_new=True):
     url = "{}/appointments".format(API_ROOT)
-    params = {"date": timezone.now().date().isoformat()}
+    params = {"date": timezone.localtime(timezone.now()).date().isoformat()}
     if for_patient:
         params["patient"] = for_patient
     response = doc_get(request, url, params=params, user=user)
