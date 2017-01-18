@@ -5,11 +5,7 @@
 <div class="container">
 <div class="arrivals">
 <h1 class="center">Today's Arrivals</h1>
-{% if arrivals %}
 {% include 'arrivals.html' %}
-{% else %}
-<p>No patients yet! Take a breather-- you've earned it.</p>
-{% endif %}
 </div>
 
 {% include 'wait-time-info.html' %}
