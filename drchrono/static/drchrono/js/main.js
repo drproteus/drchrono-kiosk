@@ -103,13 +103,15 @@ function updateAverageLoop() {
 }
 
 function refreshArrivals() {
-  requestGet('http://localhost:8000/arrivals/', function(request) {
-    var arrivalsList = document.querySelector('ul.arrivals');
-    arrivalsList.innerHTML = request.responseText;
-    arrivalsList.querySelectorAll('.time').forEach(function(element) {
-      displayTimeElement(element);
-    });
-  }, function(request) { console.log('Failed to get arrivals.')});
+  var arrivalsList = document.querySelector('ul.arrivals');
+  if (arrivalsList !== null) {
+    requestGet('http://localhost:8000/arrivals/', function(request) {
+      arrivalsList.innerHTML = request.responseText;
+      arrivalsList.querySelectorAll('.time').forEach(function(element) {
+        displayTimeElement(element);
+      });
+    }, function(request) { console.log('Failed to get arrivals.')});
+  }
 }
 
 Notification.requestPermission().then(function(result) {
@@ -127,17 +129,15 @@ function arrivalNotifyLoop() {
     var data = {};
     requestGet('http://localhost:8000/check_if_new/', function(request) {
       data = JSON.parse(request.response);
-      console.log('ok');
-    }, function() { console.log('nuts'); });
-    if (data['new_arrival_count'] && data['new_arrival_count'] > 0) {
-      data['new_arrivals'].forEach(function(arrival) {
-       newNotification(arrival['patient_name'] + " checked-in for their " + arrival['scheduled_time'] + " at " + arrival['checked_in'] + ".");
-      });
-      refreshArrivals();
-    }
+      if (data['new_arrival_count'] > 0) {
+        data['new_arrivals'].forEach(function(arrival) {
+         newNotification(arrival['patient_name'] + " checked-in for their " + arrival['scheduled_time'] + " at " + arrival['checked_in'] + ".");
+        });
+        refreshArrivals();
+      }
+    }, function() {  });
   }, 5000);
 }
 
 // prepare functions for running onload
 ready(messageExpiry);
-ready(arrivalNotifyLoop);

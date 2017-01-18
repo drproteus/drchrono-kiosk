@@ -139,7 +139,7 @@ def reset_to_arrived(request, arrival_id):
     arrival.save()
     messages.info(request,
             "Reset Appointment #{}".format(arrival.appointment_id))
-    return redirect(reverse('dashboard'))
+    return redirect(reverse('index'))
 
 @login_required
 @redirect_if_kiosk
@@ -162,7 +162,7 @@ def check_if_new_arrivals(request, mark_as_read=True):
         if not response.get('new_arrivals'):
             response['new_arrivals'] = []
         response['new_arrivals'].append({'patient_name': arrival.patient_name,
-            'scheduled_time': arrival.scheduled_time, 
-            'checked_in': arrival.created_at})
+            'scheduled_time': arrival.scheduled_time.isoformat(), 
+            'checked_in': arrival.created_at.isoformat()})
     arrivals.update(new=False)
     return HttpResponse(json.dumps(response), content_type="application/json")
