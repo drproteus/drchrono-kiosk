@@ -1,18 +1,20 @@
 <ul class="arrivals">
 {% for arrival in arrivals %}
-<li class="arrival">{% if arrival.in_session %}<h3 class="center in-session">In-Session</h3>{% endif %}
+<li class="arrival {% if arrival.in_session %}focus{% endif %}">{% if arrival.in_session %}<h3 class="center in-session">In-Session</h3>{% endif %}
     <div class="arrival-photo">
     <img src="{{ arrival.patient_photo }}" width="200" height="200" ></img>
     </div><div class="arrival-info">
         <a href="https://{{ request.user.username }}.drchrono.com/patients/{{ arrival.patient_id }}/"><h3>{{ arrival.patient_name}}</h3></a>
   <p><b>Reason for Visit: </b> {{ arrival.reason }}</p>
   <p><b>Appointment Time: </b> {{ arrival.scheduled_time }}</p>
-  <p><b>Wait{% if arrival.completed %}ed{% else %}ing{% endif %} for: </b>{{ arrival.time_spent_waiting }} second{{ arrival.time_spent_waiting|pluralize }}</p>
+  <p><b>Wait{% if arrival.unseen %}ing{% else %}ed{% endif %} for: </b>{{ arrival.time_spent_waiting }} second{{ arrival.time_spent_waiting|pluralize }}</p>
   {% if arrival.in_session %}
   <p><b>Checked-in: </b>{{ arrival.created_at }}</p>
   <a class="btn float-right" href="/complete_appointment/{{ arrival.id }}">End Appointment</a>
-  {% elif arrival.incomplete %}
+  {% elif arrival.unseen %}
   <a class="btn float-right" href="/see_patient/{{ arrival.id }}">See Patient</a>
+  {% elif arrival.completed %}
+  <a class="btn float-right" href="/reset/{{ arrival.id }}">Reset</a>
   {% endif %}
   <a class="btn float-right" href="https://{{ request.user.username }}.drchrono.com/appointments/{{ arrival.appointment_id }}/">View on drchrono</a>
     </div>

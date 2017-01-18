@@ -316,3 +316,7 @@ ul.messages li.error {
     background: black;
     color: white;
 }
+
+.arrival.focus {
+    border-bottom: 1px solid white;
+}

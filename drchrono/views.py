@@ -86,7 +86,7 @@ def config(request):
 def dashboard(request):
     config = Configuration.get_config_for_user(request.user)
     average_wait_time = Arrival.average_wait_time(request.user)
-    arrivals = request.user.arrivals.incomplete()
+    arrivals = request.user.arrivals.incomplete().order_by('-seen_at')
     return render(request, 'dashboard.html',
             {'arrivals': arrivals,
                 'average_wait_time': average_wait_time,
@@ -117,11 +117,24 @@ def see_patient(request, arrival_id):
 @login_required
 @redirect_if_kiosk
 def complete_appointment(request, arrival_id):
-    arrival = get_object_or_404(Arrival, id=arrival_id)
+    arrival = get_object_or_404(Arrival, id=arrival_id, doctor=request.user)
     appointment_id = arrival.appointment_id
     set_appointment_status(request, appointment_id, "Complete")
     arrival.completed = True
     arrival.save()
     messages.info(request,
             "You have completed your appointment with {}".format(arrival.patient_name))
+    return redirect(reverse('dashboard'))
+
+@login_required
+@redirect_if_kiosk
+def reset_to_arrived(request, arrival_id):
+    arrival = get_object_or_404(Arrival, id=arrival_id, doctor=request.user)
+    appointment_id = arrival.appointment_id
+    set_appointment_status(request, appointment_id, "Arrived")
+    arrival.completed = False
+    arrival.seen_at = None
+    arrival.save()
+    messages.info(request,
+            "Reset Appointment #{}".format(arrival.appointment_id))
     return redirect(reverse('dashboard'))
