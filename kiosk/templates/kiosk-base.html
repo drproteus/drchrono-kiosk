@@ -7,13 +7,7 @@
   <body>
     {% if not kioskMode %}{% include 'nav.html' %}{% endif %}
     {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}
-        <a href="#" class="float-right unstyled" onclick="this.parentElement.remove();">✖</a>
-      </li>
-      {% endfor %}
-    </ul>
+    {% include 'messages.html' %}
     {% endif %}
   {% block content %}{% endblock %}
   </body>

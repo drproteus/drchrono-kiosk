@@ -1,0 +1,6 @@
+<ul class="messages" onclick="this.remove();">
+{% for message in messages %}
+<li class="{{ message.tags }}">{{ message }}
+</li>
+{% endfor %}
+</ul>
