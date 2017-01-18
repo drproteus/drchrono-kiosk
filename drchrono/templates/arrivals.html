@@ -7,11 +7,11 @@
         <a href="https://{{ request.user.username }}.drchrono.com/patients/{{ arrival.patient_id }}/"><h3>{{ arrival.patient_name}}</h3>
           </a>
           <p><b>Appointment #
- <a href="https://{{ request.user.username }}.drchrono.com/appointments/{{ arrival.appointment_id }}/">{{ arrival.appointment_id }}</em></b></p>
+            <a href="https://{{ request.user.username }}.drchrono.com/appointments/{{ arrival.appointment_id }}/">{{ arrival.appointment_id }}</em></b></a></p>
           <p>
   <b>Reason for Visit: </b> {{ arrival.reason }}</p>
   <p><b>Appointment Time: </b> {{ arrival.scheduled_time }}</p>
-  <p><b>Wait{% if arrival.unseen %}ing{% else %}ed{% endif %} for: </b>{{ arrival.time_spent_waiting }} second{{ arrival.time_spent_waiting|pluralize }}</p>
+  <p><b>Wait{% if arrival.unseen %}ing{% else %}ed{% endif %} for: </b><span class="time time-running" data-seconds="{{ arrival.time_spent_waiting }}">{{ arrival.time_spent_waiting }} second{{ arrival.time_spent_waiting|pluralize }}</span></p>
   {% if arrival.in_session %}
   <p><b>Checked-in: </b>{{ arrival.created_at }}</p>
   <a class="btn float-right" href="/complete_appointment/{{ arrival.id }}">End Appointment</a>
