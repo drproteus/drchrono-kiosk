@@ -26,6 +26,15 @@ def search(request):
             results = search_appointments(request,
                     first_name=searchForm.cleaned_data['first_name'],
                     last_name=searchForm.cleaned_data['last_name'])
+            ssn_tail = searchForm.cleaned_data['ssn_tail']
+            import pdb; pdb.set_trace()
+            if ssn_tail:
+                matches = filter(lambda patient: patient.get('social_security_number', "")[-4:] == ssn_tail,
+                        results)
+                if matches:
+                    results = matches
+            else:
+                results = filter(lambda patient: not bool(patient.get('social_security_number', None)), results)
             if not results:
                 messages.error(request, 'No appointments found for today.')
                 return redirect(reverse('kiosk:home'))
