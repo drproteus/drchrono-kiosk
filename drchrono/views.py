@@ -86,7 +86,7 @@ def config(request):
 def dashboard(request):
     config = Configuration.get_config_for_user(request.user)
     average_wait_time = Arrival.average_wait_time(request.user)
-    arrivals = request.user.arrivals.incomplete().order_by('-seen_at')
+    arrivals = request.user.arrivals.incomplete().order_by('-seen_at', '-created_at')
     arrivals.update(new=False)
     return render(request, 'dashboard.html',
             {'arrivals': arrivals,
@@ -98,7 +98,7 @@ def dashboard(request):
 def archive(request):
     config = Configuration.get_config_for_user(request.user)
     average_wait_time = Arrival.average_wait_time(request.user)
-    arrivals = request.user.arrivals.completed()
+    arrivals = request.user.arrivals.completed().order_by('-created_at')
     return render(request, 'archive.html', 
             {'arrivals': arrivals,
                 'average_wait_time': average_wait_time,
@@ -150,7 +150,7 @@ def get_time_info(request):
 @login_required
 @redirect_if_kiosk
 def get_arrivals(request):
-    arrivals = request.user.arrivals.incomplete().order_by('-seen_at')
+    arrivals = request.user.arrivals.incomplete().order_by('-seen_at', '-created_at')
     return render(request, 'arrivals.html', {'arrivals': arrivals})
 
 @login_required
