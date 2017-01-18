@@ -53,4 +53,50 @@ function fadeOut(element) {
   fade(element);
 }
 
+function requestGet(url, success, error) {
+  var request = new XMLHttpRequest();
+  request.open('GET', url, true);
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400) {
+      success(request)
+    } else {
+      error(request)
+    }
+  }
+  request.send();
+}
+
+function requestPost(url, data, success, error) {
+  var request = new XMLHttpRequest();
+  request.open('POST', url, true);
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400) {
+      success(request)
+    } else {
+      error(request)
+    }
+  }
+  request.send(data);
+}
+
+function insertAfter(element, after) {
+  element.parentNode.insertBefore(after, element.nextSibling);
+}
+
+function updateWaitTimeDiv(newText) {
+  document.querySelector('.waiting-time').innerHTML = newText;
+  displayTimeElement(document.querySelector('.waiting-time .time'));
+}
+
+function updateAverageLoop() {
+  window.setInterval(function() {
+    requestGet('http://localhost:8000/wait_time/', function(request) {
+      updateWaitTimeDiv(request.responseText);
+    }, function(request) {
+      console.log(request);
+    });
+  }, 5000);
+}
+
+// prepare functions for running onload
 ready(messageExpiry);

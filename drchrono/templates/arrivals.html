@@ -11,7 +11,7 @@
           <p>
   <b>Reason for Visit: </b> {{ arrival.reason }}</p>
   <p><b>Appointment Time: </b> {{ arrival.scheduled_time }}</p>
-  <p><b>Wait{% if arrival.unseen %}ing{% else %}ed{% endif %} for: </b><span class="time time-running" data-seconds="{{ arrival.time_spent_waiting }}">{{ arrival.time_spent_waiting }} second{{ arrival.time_spent_waiting|pluralize }}</span></p>
+  <p><b>Wait{% if arrival.unseen %}ing{% else %}ed{% endif %} for: </b><span class="time{% if arrival.unseen %} time-running{% endif %}" data-seconds="{{ arrival.time_spent_waiting }}">{{ arrival.time_spent_waiting }} second{{ arrival.time_spent_waiting|pluralize }}</span></p>
   {% if arrival.in_session %}
   <p><b>Checked-in: </b>{{ arrival.created_at }}</p>
   <a class="btn float-right" href="/complete_appointment/{{ arrival.id }}">End Appointment</a>
