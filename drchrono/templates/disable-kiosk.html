@@ -15,6 +15,7 @@ function toggleModal() {
     var modal = document.querySelector('.kiosk-disable-modal');
     if (modal.hidden === true) {
         modal.hidden = false;
+        document.querySelector('#id_exit_kiosk_key').focus();
     } else {
         modal.hidden = true;
     }
