@@ -18,8 +18,3 @@ SOCIAL_AUTH_DRCHRONO_SECRET
 SOCIAL_AUTH_DRCHRONO_SCOPE
 LOGIN_REDIRECT_URL
 ```
-
-### DEVELOPMENT DOCS
-
-![Imgur](http://i.imgur.com/wduGWoI.jpg)
-![Imgur](http://i.imgur.com/DfEusfP.jpg)
