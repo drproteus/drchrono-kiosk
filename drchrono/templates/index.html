@@ -1,4 +1,5 @@
 {% extends 'base.html'  %}
+{% load static %}
 {% block title %}Welcome, {{ user.username }}.{% endblock %}
 {% block content %}
 <div class="kiosk-home-banner"><a href="/">{{ config.office_name }}</a></div>
@@ -6,35 +7,45 @@
     <a href="/dashboard/">
         <li>
             <div class="kiosk-home-button">
-                Dashboard
+            <p>Dashboard</p>
+            <img src="{% static "drchrono/images/icon-dashboard.png" %}"
+                 class="kiosk-home-button-icon">
             </div>
         </li>
     </a>
     <a href="/kiosk/">
         <li>
             <div class="kiosk-home-button">
-                View Kiosk
+            <p>View Kiosk</p>
+            <img src="{% static "drchrono/images/icon-view.png" %}"
+                 class="kiosk-home-button-icon">
             </div>
         </li>
     </a>
     <a href="/enable_kiosk/">
         <li>
             <div class="kiosk-home-button">
-                Enable Kiosk Mode
+            <p>Enable Kiosk Mode</p>
+            <img src="{% static "drchrono/images/icon-kiosk.png" %}"
+                 class="kiosk-home-button-icon">
             </div>
         </li>
     </a>
     <a href="/config/">
         <li>
             <div class="kiosk-home-button">
-                Configure
+            <p>Configure</p>
+            <img src="{% static "drchrono/images/icon-config.png" %}"
+                 class="kiosk-home-button-icon">
             </div>
         </li>
     </a>
     <a href="/logout/">
         <li>
             <div class="kiosk-home-button logout">
-                Logout
+            <p>Logout</p>
+            <img src="{% static "drchrono/images/icon-logout.png" %}"
+                 class="kiosk-home-button-icon">
             </div>
         </li>
     </a>
