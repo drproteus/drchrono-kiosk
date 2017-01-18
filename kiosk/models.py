@@ -13,6 +13,9 @@ class ArrivalQueryset(models.query.QuerySet):
     def completed(self):
         return self.filter(completed=True)
 
+    def new(self):
+        return self.filter(new=True)
+
 class ArrivalManager(models.Manager):
     def get_queryset(self):
         return ArrivalQueryset(self.model, using=self.db)
@@ -25,6 +28,9 @@ class ArrivalManager(models.Manager):
 
     def completed(self):
         return self.get_queryset().completed()
+
+    def new(self):
+        return self.get_queryset().new()
 
 class Arrival(models.Model):
     appointment_id = models.IntegerField()
@@ -39,6 +45,7 @@ class Arrival(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     seen_at = models.DateTimeField(blank=True, null=True)
     completed = models.BooleanField(default=False)
+    new = models.BooleanField(default=True)
 
     objects = ArrivalManager()
 

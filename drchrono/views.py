@@ -87,6 +87,7 @@ def dashboard(request):
     config = Configuration.get_config_for_user(request.user)
     average_wait_time = Arrival.average_wait_time(request.user)
     arrivals = request.user.arrivals.incomplete().order_by('-seen_at')
+    arrivals.update(new=False)
     return render(request, 'dashboard.html',
             {'arrivals': arrivals,
                 'average_wait_time': average_wait_time,
@@ -150,3 +151,9 @@ def get_time_info(request):
 def get_arrivals(request):
     arrivals = request.user.arrivals.incomplete().order_by('-seen_at')
     return render(request, 'arrivals.html', {'arrivals': arrivals})
+
+@login_required
+@redirect_if_kiosk
+def check_if_new_arrivals(request):
+    response = {'new_arrivals': request.user.arrivals.new().count()}
+    return HttpResponse(json.dumps(response), content_type="application/json")
