@@ -4,8 +4,12 @@
     <div class="arrival-photo">
     <img src="{{ arrival.patient_photo }}" width="200" height="200" ></img>
     </div><div class="arrival-info">
-        <a href="https://{{ request.user.username }}.drchrono.com/patients/{{ arrival.patient_id }}/"><h3>{{ arrival.patient_name}}</h3></a>
-  <p><b>Reason for Visit: </b> {{ arrival.reason }}</p>
+        <a href="https://{{ request.user.username }}.drchrono.com/patients/{{ arrival.patient_id }}/"><h3>{{ arrival.patient_name}}</h3>
+          </a>
+          <p><b>Appointment #
+ <a href="https://{{ request.user.username }}.drchrono.com/appointments/{{ arrival.appointment_id }}/">{{ arrival.appointment_id }}</em></b></p>
+          <p>
+  <b>Reason for Visit: </b> {{ arrival.reason }}</p>
   <p><b>Appointment Time: </b> {{ arrival.scheduled_time }}</p>
   <p><b>Wait{% if arrival.unseen %}ing{% else %}ed{% endif %} for: </b>{{ arrival.time_spent_waiting }} second{{ arrival.time_spent_waiting|pluralize }}</p>
   {% if arrival.in_session %}
