@@ -56,7 +56,7 @@ class HiddenInfoForm(InfoForm):
 
 class ConfigurationForm(forms.Form):
     office_name = forms.CharField(max_length=200)
-    exit_kiosk_key = forms.CharField(max_length=300, required=False)
+    exit_kiosk_key = forms.CharField(max_length=300, required=True)
 
 class DisableForm(forms.Form):
     exit_kiosk_key = forms.CharField(max_length=300, required=False,

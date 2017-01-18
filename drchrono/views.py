@@ -72,7 +72,7 @@ def config(request):
             config.exit_kiosk_key = form.cleaned_data['exit_kiosk_key']
             config.save()
             return redirect(reverse('index'))
-        return render(request, 'config.html', {'form': form})
+        return render(request, 'config.html', {'form': form, 'config': configs.first()})
     form = ConfigurationForm()
     config = None
     if configs.count() > 0:
