@@ -20,6 +20,10 @@ function displayClockElement(element) {
   } else {
     hour = hour % 12;
   }
+  if (minute < 10)
+    minute = "0"+String(minute);
+  if (second < 10)
+    second = "0"+String(second);
   element.innerHTML = hour+":"+minute+":"+second+" "+meridian;
 }
 
