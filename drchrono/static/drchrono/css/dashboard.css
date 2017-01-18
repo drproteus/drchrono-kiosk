@@ -169,7 +169,6 @@ a.logout:hover, .logout:hover{
 
 /* Dashboard */
 .arrivals {
-    min-height: 400px;
     padding: 0;
 }
 
@@ -251,6 +250,8 @@ ul.messages li.error {
 /* Dashboard//Arrivals */
 .arrivals {
     list-style: none;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .arrival {
