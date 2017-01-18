@@ -135,6 +135,7 @@ def reset_to_arrived(request, arrival_id):
     set_appointment_status(request, appointment_id, "Arrived")
     arrival.completed = False
     arrival.seen_at = None
+    arrival.new = True
     arrival.save()
     messages.info(request,
             "Reset Appointment #{}".format(arrival.appointment_id))
@@ -154,6 +155,14 @@ def get_arrivals(request):
 
 @login_required
 @redirect_if_kiosk
-def check_if_new_arrivals(request):
-    response = {'new_arrivals': request.user.arrivals.new().count()}
+def check_if_new_arrivals(request, mark_as_read=True):
+    arrivals = request.user.arrivals.new()
+    response = {'new_arrival_count': arrivals.count(), 'new_arrivals': None}
+    for arrival in arrivals:
+        if not response.get('new_arrivals'):
+            response['new_arrivals'] = []
+        response['new_arrivals'].append({'patient_name': arrival.patient_name,
+            'scheduled_time': arrival.scheduled_time, 
+            'checked_in': arrival.created_at})
+    arrivals.update(new=False)
     return HttpResponse(json.dumps(response), content_type="application/json")

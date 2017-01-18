@@ -116,6 +116,28 @@ Notification.requestPermission().then(function(result) {
   console.log(result);
 });
 
+function newNotification(body) {
+  var options = {body: body}
+  var n = new Notification('New Check-In', options);
+  window.setTimeout(n.close.bind(n), 5000);
+}
+
+function arrivalNotifyLoop() {
+  window.setInterval(function() {
+    var data = {};
+    requestGet('http://localhost:8000/check_if_new/', function(request) {
+      data = JSON.parse(request.response);
+      console.log('ok');
+    }, function() { console.log('nuts'); });
+    if (data['new_arrival_count'] && data['new_arrival_count'] > 0) {
+      data['new_arrivals'].forEach(function(arrival) {
+       newNotification(arrival['patient_name'] + " checked-in for their " + arrival['scheduled_time'] + " at " + arrival['checked_in'] + ".");
+      });
+      refreshArrivals();
+    }
+  }, 5000);
+}
 
 // prepare functions for running onload
 ready(messageExpiry);
+ready(arrivalNotifyLoop);
