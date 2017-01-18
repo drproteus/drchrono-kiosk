@@ -29,7 +29,5 @@ function initTime() {
   document.querySelectorAll('.time').forEach(function(element) {
     displayTimeElement(element);
   });
-  window.setInterval(tick, 5);
+  window.setInterval(tick, 1000);
 }
-
-ready(initTime);
