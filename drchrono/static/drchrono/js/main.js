@@ -111,5 +111,11 @@ function refreshArrivals() {
     });
   }, function(request) { console.log('Failed to get arrivals.')});
 }
+
+Notification.requestPermission().then(function(result) {
+  console.log(result);
+});
+
+
 // prepare functions for running onload
 ready(messageExpiry);
