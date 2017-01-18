@@ -121,7 +121,6 @@ Notification.requestPermission().then(function(result) {
 function newNotification(body) {
   var options = {body: body}
   var n = new Notification('New Check-In', options);
-  window.setTimeout(n.close.bind(n), 5000);
 }
 
 function arrivalNotifyLoop() {
@@ -136,7 +135,7 @@ function arrivalNotifyLoop() {
         refreshArrivals();
       }
     }, function() {  });
-  }, 10000);
+  }, 5000);
 }
 
 // prepare functions for running onload
