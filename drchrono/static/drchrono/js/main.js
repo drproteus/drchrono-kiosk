@@ -21,7 +21,6 @@ function tick() {
   document.querySelectorAll('.time-running').forEach(function(element) {
     element.dataset['seconds'] = 1 + Number(element.dataset['seconds']);
     displayTimeElement(element);
-    console.log('tick');
   });
 }
 
@@ -31,3 +30,13 @@ function initTime() {
   });
   window.setInterval(tick, 1000);
 }
+
+function messageExpiry() {
+  window.setTimeout(function() {
+    try { 
+      document.querySelector('.messages').remove();
+    } catch(err) {}
+  }, 5000);
+}
+
+ready(messageExpiry);
