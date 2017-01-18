@@ -67,9 +67,9 @@
     padding: 20px;
 }
 
-.navigation a.logo {
+.logo {
     font-family: 'Lobster', cursive;   
-    padding-top: 18px;
+    padding-top: 18px !important;
 }
 
 .navigation a:hover {
@@ -320,4 +320,25 @@ ul.messages li.error {
 
 .arrival.focus {
     border-bottom: 1px solid white;
+}
+
+.drchrono-button {
+    text-decoration: none;
+    color: white;
+    padding: 20px;
+    font-size: 16px;
+    display: block;
+    margin: auto;
+    background: green;
+    width: 400px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 7px 7px 0 0 #aaa;
+}
+
+.drchrono-button:hover {
+    position: relative;
+    top: 5px;
+    left: 5px;
+    box-shadow: 2px 2px 0 0 #aaa;
 }

@@ -1,7 +1,10 @@
 {% extends 'base.html'  %}
 {% block title %}Welcome, Doctor.{% endblock %}
 {% block content %}
-    <a href="{% url 'social:begin' 'drchrono' %}?next=/">
+<div class="container">
+    <h1 class="center logo">oskar</h1>
+    <a class="drchrono-button" href="{% url 'social:begin' 'drchrono' %}?next=/">
       Authenticate with drchrono
     </a>
+</div>
 {% endblock %}
