@@ -12,7 +12,8 @@
         <div class="patient-info">
           <span>{{ patient.first_name }} </span>
           {% if patient.middle_name %}
-          <span> {{ patient.middle_name }} </span>
+          <span> {{ patient.middle_name|initial }} </span>
+          {% endif %}
           <span>{{ patient.last_name }}</span>
         </div>
         <div class="patient-appointments">

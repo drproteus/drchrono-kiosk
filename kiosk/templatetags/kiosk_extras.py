@@ -20,3 +20,10 @@ def time_format(t):
         print e
         return None
     return "{} {}".format(":".join([hour, minute]), meridian)
+
+@register.filter
+def initial(name):
+    name = name[0:1]
+    if name:
+        return name + '.'
+    return ''
