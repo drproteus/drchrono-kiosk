@@ -83,6 +83,10 @@ function insertAfter(element, after) {
   element.parentNode.insertBefore(after, element.nextSibling);
 }
 
+function insertBefore(element, before) {
+  element.parentNode.insertBefore(before, element);
+}
+
 function updateWaitTimeDiv(newText) {
   document.querySelector('.waiting-time').innerHTML = newText;
   displayTimeElement(document.querySelector('.waiting-time .time'));
@@ -98,5 +102,14 @@ function updateAverageLoop() {
   }, 5000);
 }
 
+function refreshArrivals() {
+  requestGet('http://localhost:8000/arrivals/', function(request) {
+    var arrivalsList = document.querySelector('ul.arrivals');
+    arrivalsList.innerHTML = request.responseText;
+    arrivalsList.querySelectorAll('.time').forEach(function(element) {
+      displayTimeElement(element);
+    });
+  }, function(request) { console.log('Failed to get arrivals.')});
+}
 // prepare functions for running onload
 ready(messageExpiry);

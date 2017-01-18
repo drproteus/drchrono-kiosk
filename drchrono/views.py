@@ -144,3 +144,9 @@ def reset_to_arrived(request, arrival_id):
 def get_time_info(request):
     average_wait_time = Arrival.average_wait_time(request.user)
     return render(request, 'get-time-info.html', {'average_wait_time': average_wait_time})
+
+@login_required
+@redirect_if_kiosk
+def get_arrivals(request):
+    arrivals = request.user.arrivals.incomplete().order_by('-seen_at')
+    return render(request, 'arrivals.html', {'arrivals': arrivals})

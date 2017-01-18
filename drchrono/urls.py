@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^archive/$', views.archive, name="archive"),
     url(r'^reset/(\d+)/$', views.reset_to_arrived, name="reset"),
     url(r'^wait_time/$', views.get_time_info, name="wait_time"),
+    url(r'^arrivals/$', views.get_arrivals, name="arrivals"),
     url(r'^kiosk/', include('kiosk.urls', namespace='kiosk')),
 ]
