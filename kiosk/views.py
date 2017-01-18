@@ -26,7 +26,6 @@ def search(request):
             results = search_appointments(request,
                     first_name=searchForm.cleaned_data['first_name'],
                     last_name=searchForm.cleaned_data['last_name'])
-            results = filter(lambda patient: bool(patient['appointments']), results)
             if not results:
                 messages.error(request, 'No appointments found for today.')
                 return redirect(reverse('kiosk:home'))

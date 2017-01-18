@@ -115,6 +115,7 @@ def search_appointments(request, first_name=None, last_name=None, user=None):
     for patient in patients:
         appointments = get_todays_appointments(request, for_patient=patient['id'], user=user)
         patient['appointments'] = appointments
+    patients = filter(lambda patient: bool(patient['appointments']), patients)
     return patients
 
 def get_patient(request, patient_id, user=None, params=None):
