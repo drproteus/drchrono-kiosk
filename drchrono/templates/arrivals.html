@@ -21,6 +21,7 @@
   <a class="btn float-right" href="/reset/{{ arrival.id }}">Reset</a>
   {% endif %}
   <a class="btn float-right" href="https://{{ request.user.username }}.drchrono.com/appointments/{{ arrival.appointment_id }}/">View on drchrono</a>
+  <a class="btn float-right notes" href="javascript:;" data-appointment-id={{ arrival.appointment_id }}" onclick="toggleNotes({{arrival.appointment_id}}); return false;">View and Edit Notes</a>
     </div>
 </li>
 {% endfor %}

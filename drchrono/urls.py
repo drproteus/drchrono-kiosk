@@ -23,5 +23,7 @@ urlpatterns = [
     url(r'^wait_time/$', views.get_time_info, name="wait_time"),
     url(r'^arrivals/$', views.get_arrivals, name="arrivals"),
     url(r'^check_if_new/$', views.check_if_new_arrivals),
+    url(r'^get_notes/(\d+)/$', views.get_notes_form, name="get_notes"),
+    url(r'^update_notes/(\d+)/$', views.update_notes, name="update_notes"),
     url(r'^kiosk/', include('kiosk.urls', namespace='kiosk')),
 ]

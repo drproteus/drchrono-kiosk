@@ -68,3 +68,6 @@ class CheckinForm(forms.Form):
     patient_photo = forms.CharField(max_length=500)
     scheduled_time = forms.CharField(max_length=200)
     duration = forms.IntegerField()
+
+class NotesForm(forms.Form):
+    notes = forms.CharField(widget=forms.Textarea, required=False)

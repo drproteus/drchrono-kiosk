@@ -1,0 +1,9 @@
+<form class="form-display" action="/update_notes/{{appointment_id}}/" method="POST">
+  {% csrf_token %}
+  <a href="#" onclick="this.parentElement.parentElement.hidden = true;"
+      class="float-right" style="text-decoration: none; color: inherit;">✖</a> 
+  <h1>Appointment #{{ appointment_id }}</h1>
+  <h3>Reason For Visit: {{ reason }}</h3>
+  {{ notesForm.as_p }}
+  <input type="submit" value="Save Notes"/>
+</form>

@@ -8,7 +8,7 @@ import requests
 import json
 from .utils import *
 from kiosk.models import Configuration, Arrival
-from kiosk.forms import ConfigurationForm, DisableForm
+from kiosk.forms import ConfigurationForm, DisableForm, NotesForm
 from django.contrib import messages
 from django.utils import timezone
 
@@ -167,3 +167,26 @@ def check_if_new_arrivals(request, mark_as_read=True):
             'patient_photo': arrival.patient_photo})
     arrivals.update(new=False)
     return HttpResponse(json.dumps(response), content_type="application/json")
+
+@login_required
+@redirect_if_kiosk
+def get_notes_form(request, appointment_id):
+    appointment = get_appointment(request, appointment_id)
+    arrival = get_object_or_404(Arrival, appointment_id=appointment_id, 
+            doctor=request.user)
+    notesForm = NotesForm(appointment)
+    return render(request, 'notes.html', {
+        'notesForm': notesForm,
+        'appointment_id': appointment_id,
+        'reason': arrival.reason})
+
+@login_required
+@redirect_if_kiosk
+def update_notes(request, appointment_id):
+    if request.method == 'POST':
+        notesForm = NotesForm(request.POST)
+        if notesForm.is_valid():
+            data = {'notes': notesForm.cleaned_data['notes']}
+            response = update_appointment(request, appointment_id, data)
+            messages.success(request, "Updated Notes for Appointment #{}".format(appointment_id))
+    return redirect(reverse('dashboard'))

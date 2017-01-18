@@ -185,5 +185,24 @@ function arrivalNotifyLoop() {
   }, 5000);
 }
 
+function toggleNotes(appointmentId) {
+  var divId = "#notes-" + String(appointmentId);
+  notesDiv = document.querySelector(divId);
+  if (notesDiv !== null) {
+    notesDiv.hidden = false;
+  } else {
+    requestGet('http://localhost:8000/get_notes/'+appointmentId+'/', function(request) {
+      notesDiv = document.createElement('div');
+      notesDiv.classList.add('modal');
+      notesDiv.id = "notes-" + String(appointmentId);
+      notesDiv.innerHTML = request.responseText;
+      insertBefore(document.querySelector('.container'), notesDiv);
+    }, function() {});
+  }
+}
+
+    
+
+
 // prepare functions for running onload
 ready(messageExpiry);
