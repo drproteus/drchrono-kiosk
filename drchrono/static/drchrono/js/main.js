@@ -136,7 +136,7 @@ function arrivalNotifyLoop() {
         refreshArrivals();
       }
     }, function() {  });
-  }, 5000);
+  }, 10000);
 }
 
 // prepare functions for running onload

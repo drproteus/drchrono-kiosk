@@ -162,7 +162,7 @@ def check_if_new_arrivals(request, mark_as_read=True):
         if not response.get('new_arrivals'):
             response['new_arrivals'] = []
         response['new_arrivals'].append({'patient_name': arrival.patient_name,
-            'scheduled_time': arrival.scheduled_time.isoformat(), 
-            'checked_in': arrival.created_at.isoformat()})
+            'scheduled_time': arrival.scheduled_time.strftime('%H:%M:%S %p'), 
+            'checked_in': arrival.created_at.strftime('%H:%M:%S %p')})
     arrivals.update(new=False)
     return HttpResponse(json.dumps(response), content_type="application/json")
