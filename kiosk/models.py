@@ -89,10 +89,15 @@ class Configuration(models.Model):
     #         return True
     #     return False
 
+    @property
+    def get_time(self):
+        return timezone.localtime(timezone.now())
+
     @classmethod
     def get_config_for_user(klass, user):
         configs = klass.objects.filter(doctor=user)
         if configs.count() < 1:
             return None
         return configs.first()
+
 

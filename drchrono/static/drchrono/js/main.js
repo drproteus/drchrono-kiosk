@@ -6,6 +6,37 @@ function ready(fn) {
   }
 }
 
+function displayClockElement(element) {
+  var seconds = element.dataset['seconds'];
+  var hour = Math.floor(seconds/60/60);
+  var minute = Math.floor(seconds/60%60);
+  var second = Math.floor(seconds%60);
+  var meridian = 'PM'
+  if (hour < 12) {
+    meridian = 'AM';
+  } else if (hour == 0) {
+    meridian = 'AM';
+    hour = 12;
+  } else {
+    hour = hour % 12;
+  }
+  element.innerHTML = hour+":"+minute+":"+second+" "+meridian;
+}
+
+function tickClocks() {
+  document.querySelectorAll('.clock-running').forEach(function(element) {
+    element.dataset['seconds'] = (1 + Number(element.dataset['seconds'])) % 86400;
+    displayClockElement(element);
+  });
+}
+
+function initClocks() {
+  document.querySelectorAll('.clock').forEach(function(element) {
+    displayClockElement(element);
+  });
+  window.setInterval(tickClocks, 1000);
+}
+
 function displayTimeElement(element) {
   var seconds = element.dataset['seconds'];
   var hour = Math.floor(seconds/60/60);
@@ -15,7 +46,6 @@ function displayTimeElement(element) {
   if (second == 0 || second > 1)
     element.innerHTML += "s";
 }
-
 
 function tick() {
   document.querySelectorAll('.time-running').forEach(function(element) {

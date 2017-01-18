@@ -400,3 +400,13 @@ ul.appointment-list {
     background: rebeccapurple;
     cursor: pointer;
 }
+
+/* Timebar */
+.todays-date {
+    float: left;
+    width: 50%;
+}
+.the-time {
+    float: right;
+    font-weight: bold;
+}

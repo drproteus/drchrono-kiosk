@@ -27,3 +27,15 @@ def initial(name):
     if name:
         return name + '.'
     return ''
+
+@register.filter
+def stringify_date(date):
+    return date.strftime("%A %B %d, %Y")
+
+@register.filter
+def stringify_time(date):
+    pass
+
+@register.filter
+def time_to_seconds(date):
+    return (date.hour * 60 * 60) + (date.minute * 60) + (date.second)
