@@ -402,24 +402,16 @@ ul.appointment-list {
 }
 
 /* Timebar */
-.todays-date {
+.todays-date, .the-time, .reset {
     float: left;
     width: 33%;
     text-align: center;
+    min-height: 10px;
 }
+
 .the-time {
-    float: left;
     font-weight: bold;
-    width: 33%;
-    text-align: center;
 }
-
-.reset {
-    width: 33%;
-    float: left;
-    text-align: center;
-}
-
 .reset .btn {
     border: 0;
 }

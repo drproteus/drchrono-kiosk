@@ -9,7 +9,7 @@ body {
     <span class="date">{{ config.get_time|stringify_date }}</span>
   </div>
   <div class="reset">
-      {% if not disable %}<a href="/kiosk/" class="btn">Start Over</a>{% else %}<b>Welcome</b>{% endif %}
+      {% if not disable %}<a href="/kiosk/" class="btn">Start Over</a>{% endif %}
   </div>
   <div class="the-time"><span class="clock clock-running" data-seconds="{{ config.get_time|time_to_seconds }}"></span></div>
 </div>
