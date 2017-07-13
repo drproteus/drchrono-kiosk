@@ -18,3 +18,9 @@ SOCIAL_AUTH_DRCHRONO_SECRET
 SOCIAL_AUTH_DRCHRONO_SCOPE
 LOGIN_REDIRECT_URL
 ```
+
+![Imgur](http://i.imgur.com/vWd4Hfy.png)
+![Imgur](http://i.imgur.com/QHldYky.png)
+![Imgur](http://i.imgur.com/y63zfuF.png)
+![Imgur](http://i.imgur.com/68aoNHa.png)
+![Imgur](http://i.imgur.com/rZuBvkr.png)
